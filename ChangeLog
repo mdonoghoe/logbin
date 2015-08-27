@@ -1,0 +1,22 @@
+﻿**  denotes quite substantial/important changes
+*** denotes really big changes 
+
+2.0
+
+*** 'method' option added: fit using glm, glm2, CEM or single EM algorithm with overparameterised model
+
+*** 'accelerate' option added: use turboEM methods to speed up convergence
+
+*   Corrected the definition of 'boundary'
+
+1.2
+
+*   Minor documentation changes (e.g. updated references)
+
+1.1
+
+*   Very minor documentation changes
+
+1.0
+
+*   Added na.action argument to logbin() and smooth.logbin()
