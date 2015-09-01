@@ -10,4 +10,3 @@ Depends: R (>= 3.0.1)
 Imports: splines, glm2, turboEM
 License: GPL (>= 2)
 LazyData: true
-URL: https://github.com/mdonoghoe/logbin
