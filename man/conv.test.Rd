@@ -25,11 +25,12 @@ conv.test(theta1, theta2, epsilon)
 }
 \details{
 This is used as the convergence test in the
-\code{\link{logbin}} fitting functions, because the EM
-algorithm may converge slowly such that the test based on
-the deviance used in \code{\link{glm.fit}} (see
-\code{\link{glm.control}}) may report convergence at a
-point away from the actual optimum.
+\code{\link{logbin}} fitting functions: it is passed as
+\code{convfn.user} to \code{\link[turboEM]{turboem}}.
+It is used instead of a test based on deviance (such as 
+that applied in \code{\link{glm.fit}}), which may report
+convergence at a point away from the actual optimum when
+the EM algorithm converges slowly.
 }
 \value{
 A logical; \code{TRUE} if
