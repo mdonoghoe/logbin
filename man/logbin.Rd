@@ -78,11 +78,11 @@ logbin(formula, mono = NULL, data, subset, na.action, start = NULL,
 }
   \item{method}{
     a character string that determines which algorithm to use
-  to find the MLE. The main purpose of \code{logbin} is the stable EM-type
-  algorithms: \code{"cem"} for the combinatorial EM algorithm,
-  which cycles through a sequence of constrained parameter spaces, or
-  \code{"em"} for a single EM algorithm based on an overparameterised
-  model.
+  to find the MLE. The main purpose of \code{logbin} is the
+  implementation of stable EM-type algorithms: \code{"cem"} for 
+  the combinatorial EM algorithm, which cycles through a sequence 
+  of constrained parameter spaces, or \code{"em"} for a single EM 
+  algorithm based on an overparameterised model.
   
   However, \code{"\link{glm}"} or \code{"\link[glm2]{glm2}"} may be used
   to compare the results from the usual IWLS algorithms on the same model.
@@ -219,12 +219,15 @@ and flexible methods for log-binomial models. \emph{Biostatistics} 13(1): 179--1
 Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
 }
 \note{
-Due to the way the covariate space is defined in the CEM algorithm,
-specifying interactions in the formula is not currently supported 
-by \code{logbin}. 2-way interactions between factors can be
-included by calculating a new factor term that has levels
-corresponding to all possible combinations of the factor
-levels. See the Example.
+Due to the way in which the covariate space is defined in the CEM algorithm,
+models that include terms that are functionally dependent on one another
+--- such as interactions and polynomials --- may give unexpected
+results. Categorical covariates should always be entered directly
+as factors rather than dummy variables. 2-way interactions between 
+factors can be included by calculating a new factor term that 
+has levels corresponding to all possible combinations of the factor
+levels (see the Example). Non-linear relationships can be included
+by using \code{\link{logbin.smooth}}.
 }
 \seealso{
 \code{\link{logbin.cem}}, \code{\link{logbin.em}}
