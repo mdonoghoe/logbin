@@ -33,9 +33,8 @@ Iso(...)
 }
 \details{
 The function does not evaluate the variable arguments; the
-output from this function is passed as part of the
-arguments to \code{\link{logbin.smooth.design}}, which
-constructs the actual basis functions.
+output from this function is used when producing the model
+matrix, at which point the actual basis functions are constructed.
 
 \code{B} is used to specify an order-3 B-spline basis (which can be
 restricted to be monotonically non-decreasing via the
@@ -67,8 +66,7 @@ specified). \code{NA} for \code{Iso}.}
 Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
 }
 \seealso{
-\code{\link{logbin.smooth}},
-\code{\link{logbin.smooth.design}}
+\code{\link{logbin.smooth}}
 
 \code{\link[mgcv]{s}} performs a similar function in the \code{\link[mgcv]{mgcv}} package.
 }

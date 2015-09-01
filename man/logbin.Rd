@@ -230,8 +230,6 @@ levels (see the Example). Non-linear relationships can be included
 by using \code{\link{logbin.smooth}}.
 }
 \seealso{
-\code{\link{logbin.cem}}, \code{\link{logbin.em}}
-
 \code{\link{logbin.smooth}} for semi-parametric models
 
 \code{\link[turboEM]{turboem}} for acceleration methods.
