@@ -1,3 +1,5 @@
+utils::globalVariables("tol")
+
 nplbin <- function(y, x, offset, start, control = logbin.control(), 
                    accelerate = c("em","squarem","pem","qn"), control.accelerate = list(list()))
 {
@@ -76,7 +78,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
   
   validparams <- function(p) return(all(p <= 0))
 	
-	conv.user <- function(old,new) return(conv.test(old, new, as.name("tol")))
+  conv.user <- function(old,new) return(conv.test(old, new, tol))
   
   res <- turboEM::turboem(par = coefold, fixptfn = fixptfn, objfn = objfn, method = accelerate,
                           pconstr = validparams, y1 = y1, y2 = y2, n = n, x = x, x.s = x.scale,
