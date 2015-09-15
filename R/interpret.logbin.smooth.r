@@ -23,38 +23,38 @@ interpret.logbin.smooth <- function(formula) {
 	if(ns == 0) stop("formula does not include any semi-parametric terms. Use 'logbin' instead.")
 	
 	kp <- 1
-    smooth.ind <- NULL
+  smooth.ind <- NULL
 	smooth.spec <- list()
 	for (i in seq_len(nt)) {
 		varind <- which(as.logical(vtab[,i]))
 		if ((varind %in% Bp) || (varind %in% Isop)) {
 			st <- eval(parse(text = terms[i]), envir = p.env)
 			full.newterm <- st$termlabel
-            fake.newterm <- st$term
-            smooth.ind <- c(smooth.ind, i)
+      fake.newterm <- st$term
+      smooth.ind <- c(smooth.ind, i)
 			smooth.spec[[st$term]] <- st
 		} else full.newterm <- fake.newterm <- as.character(vars[varind+1L])
 		if (kp > 1) {
-            full.formula <- paste(full.formula, "+", full.newterm, sep = "")
-            fake.formula <- paste(fake.formula, "+", fake.newterm, sep = "")
-        } else {
-            full.formula <- paste(full.formula, full.newterm, sep = "")
-            fake.formula <- paste(fake.formula, fake.newterm, sep = "")
-        }
+      full.formula <- paste(full.formula, "+", full.newterm, sep = "")
+      fake.formula <- paste(fake.formula, "+", fake.newterm, sep = "")
+    } else {
+      full.formula <- paste(full.formula, full.newterm, sep = "")
+      fake.formula <- paste(fake.formula, fake.newterm, sep = "")
+    }
 		kp <- kp + 1
 	}
 	
 	if (!is.null(off)) {
-        if (kp > 1)
-            fake.formula <- paste(fake.formula, "+", sep = "")
-        fake.formula <- paste(fake.formula, paste(as.character(vars[off+1L]),collapse="+"), sep = "")
-        kp <- kp + 1
-    }
+    if (kp > 1)
+      fake.formula <- paste(fake.formula, "+", sep = "")
+    fake.formula <- paste(fake.formula, paste(as.character(vars[off+1L]),collapse="+"), sep = "")
+    kp <- kp + 1
+  }
     
-    full.formula <- as.formula(full.formula, p.env)
-    fake.formula <- as.formula(fake.formula, p.env)
+  full.formula <- as.formula(full.formula, p.env)
+  fake.formula <- as.formula(fake.formula, p.env)
 	
 	list(full.formula = full.formula, fake.formula = fake.formula, 
-            smooth.spec = smooth.spec, smooth.ind = smooth.ind,
-            terms = tf)		
+       smooth.spec = smooth.spec, smooth.ind = smooth.ind,
+       terms = tf)		
 }
