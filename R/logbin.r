@@ -1,6 +1,6 @@
 logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL, offset,
-            control = list(...), model = TRUE, method = c("cem","em","glm","glm2"),
-            accelerate = c("em","squarem","pem","qn"), control.accelerate = list(list()), 
+            control = list(...), model = TRUE, method = c("cem", "em", "glm", "glm2", "ab"),
+            accelerate = c("em", "squarem", "pem", "qn"), control.accelerate = list(list()), 
             warn = TRUE, ...) {
   call <- match.call()
   method <- match.arg(method)
@@ -34,9 +34,8 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
     mres <- match(outnames, names(res), 0L)
     fit[names(res)[mres]] <- res[mres]
     fit$loglik <- as.numeric(ll.res)
-    fit$aic.c <- AIC(res, k = 2 * nobs(res) / (nobs(res) - attr(ll.res, "df") - 1))
-  }
-  else {
+    fit$aic.c <- AIC(res, k = 2 * nobs(res) / (nobs(res) - attr(ll.res, "df") - 1))  
+  } else {
     mf <- match.call(expand.dots = FALSE)
     m <- match(c("formula", "data", "subset", "na.action", "offset"), names(mf), 0L)
     mf <- mf[c(1L, m)]
@@ -64,7 +63,7 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
       if(!is.null(nm)) names(Y) <- nm
     }
   
-    logbin.method <- paste("logbin",method, sep = ".")
+    logbin.method <- paste("logbin", method, sep = ".")
     res <- do.call(logbin.method, list(mt = mt, mf = mf, Y = Y, offset = offset, mono = mono,
                                        start = start, control = control, accelerate = accelerate, 
                                        control.accelerate = control.accelerate,
