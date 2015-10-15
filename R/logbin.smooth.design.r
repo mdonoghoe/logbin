@@ -1,5 +1,4 @@
-logbin.smooth.design <- function(interpret, type = c("cem","em"), allref, design.knots, design.param)
-{
+logbin.smooth.design <- function(interpret, type = c("cem","em"), allref, design.knots, design.param) {
   type <- match.arg(type)
   p.env <- environment(interpret$full.formula)
   formula.lhs <- Reduce(paste, deparse(interpret$full.formula[[2L]]))
@@ -38,14 +37,14 @@ logbin.smooth.design <- function(interpret, type = c("cem","em"), allref, design
         if(num.knots > length(unique.x)-2)
           stop(gettextf("error in %s: number of knots greater than number of unique values of %s",
                         smthlabel, smth), domain = NA)
-        knots.int <- quantile(unique.x, probs = seq(0, 1, len = num.knots+2), names = FALSE)
+        knots.int <- quantile(unique.x, probs = seq(0, 1, len = num.knots + 2), names = FALSE)
         knots[[smth]] <- c(rep(min.x,2), knots.int, rep(max.x, 2))
       }
-			B <- matrix(NA, nrow = nobs, ncol = length(knots[[smth]])-3)
+      B <- matrix(NA, nrow = nobs, ncol = length(knots[[smth]]) - 3)
       B[!is.na(x),] <- splines::splineDesign(knots[[smth]], x, ord = 3)
       colnames(B) <- paste0(smthlabel, seq_len(ncol(B)))
       ref <- allref$allref[[smth]][[as.numeric(design.param[smth])]]
-      if (length(ref)==1) {
+      if (length(ref) == 1) {
         if (type == "cem") x.new <- B[, -ref, drop=FALSE]
         else x.new <- B
       } else {

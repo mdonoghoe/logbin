@@ -1,60 +1,61 @@
 logbin.allref <- function(object, data = environment(object), type = c("cem","em"), mono, start = NULL) {
   type <- match.arg(type)
-	t <- if (missing(data))
-		terms(object)
-	else terms(object, data = data)
-	if (is.null(attr(data, "terms")))
-		data <- model.frame(object, data)
-	else {
-		reorder = match(sapply(attr(t, "variables"), deparse,
-			width.cutoff = 500)[-1L], names(data))
-		if (any(is.na(reorder)))
-			stop("model frame and formula mismatch in logbin.allref()")
-		if (!identical(reorder, seq_len(ncol(data))))
-			data <- data[, reorder, drop = FALSE]
-	}
-	int <- attr(t, "response")
-	
-	namD <- names(data)
-	for (i in namD) if (is.character(data[[i]]))
-  data[[i]] <- factor(data[[i]])
-	isF <- vapply(data, function(x) is.factor(x) || is.logical(x), NA)
-	isF[int] <- FALSE
-	
-	nobs <- nrow(data)
-	termlist <- attr(t, "term.labels")
-	nvar <- length(termlist)
+  t <- if (missing(data))
+    terms(object)
+  else terms(object, data = data)
+  if (is.null(attr(data, "terms")))
+    data <- model.frame(object, data)
+  else {
+    reorder = match(sapply(attr(t, "variables"), deparse,
+                           width.cutoff = 500)[-1L], names(data))
+    if (any(is.na(reorder)))
+      stop("model frame and formula mismatch in logbin.allref()")
+    if (!identical(reorder, seq_len(ncol(data))))
+      data <- data[, reorder, drop = FALSE]
+  }
+  int <- attr(t, "response")
+  
+  namD <- names(data)
+  for (i in namD) 
+    if (is.character(data[[i]]))
+      data[[i]] <- factor(data[[i]])
+  isF <- vapply(data, function(x) is.factor(x) || is.logical(x), NA)
+  isF[int] <- FALSE
+  
+  nobs <- nrow(data)
+  termlist <- attr(t, "term.labels")
+  nvar <- length(termlist)
     
   npar <- sum(as.numeric(!isF))
-	if(any(isF)) npar <- npar + sum(sapply(data[isF], function(x) nlevels(factor(x)) - 1)) 
-	
-	if (missing(mono)) mono <- rep(FALSE, nvar)
-	if (is.null(mono)) mono <- rep(FALSE, nvar)
-	monotonic <- rep(FALSE, nvar)
-	names(monotonic) <- termlist
-	monotonic[mono] <- TRUE
-	names(monotonic) <- termlist
-	
-	allref <- list()
+  if(any(isF)) npar <- npar + sum(sapply(data[isF], function(x) nlevels(factor(x)) - 1)) 
+  
+  if (missing(mono)) mono <- rep(FALSE, nvar)
+  if (is.null(mono)) mono <- rep(FALSE, nvar)
+  monotonic <- rep(FALSE, nvar)
+  names(monotonic) <- termlist
+  monotonic[mono] <- TRUE
+  names(monotonic) <- termlist
+  
+  allref <- list()
     
   if (!is.null(start)) {
     if (length(start) != npar)
       stop(gettextf("number of values in 'start' is %d should equal %d (number of parameters)",
            length(start), npar), domain = NA)
-		start.orig <- start
-		start.new.int <- start.orig[1]
-		start.new.other <- start.orig[-1]
-		this.start.o <- this.start.n <- 2
+    start.orig <- start
+    start.new.int <- start.orig[1]
+    start.new.other <- start.orig[-1]
+    this.start.o <- this.start.n <- 2
     delta.denom <- 1
-	} else {
-		start.new.int <- NULL
-		start.new.other <- NULL
-	}
-	
-	if (nvar == 0) return(list(allref = allref, terms = t, data = data))
+  } else {
+    start.new.int <- NULL
+    start.new.other <- NULL
+  }
+  
+  if (nvar == 0) return(list(allref = allref, terms = t, data = data))
   for (term in termlist) {
     allref[[term]] <- list()
-    term2 <- gsub("`","",term)
+    term2 <- gsub("`", "", term)
     if (!isF[term2]) {
       cont.min <- min(data[[term2]])
       cont.max <- max(data[[term2]])
@@ -112,5 +113,5 @@ logbin.allref <- function(object, data = environment(object), type = c("cem","em
     start.new.int <- start.new.int / delta.denom
     start.new.other <- start.new.other + start.new.int
   }
-	list(allref = allref, terms = t, data = data, monotonic = monotonic, start.new = c(start.new.int, start.new.other))
+  list(allref = allref, terms = t, data = data, monotonic = monotonic, start.new = c(start.new.int, start.new.other))
 }

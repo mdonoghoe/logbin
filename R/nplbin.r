@@ -1,16 +1,14 @@
 utils::globalVariables("tol")
 
 nplbin <- function(y, x, offset, start, control = logbin.control(), 
-                   accelerate = c("em","squarem","pem","qn"), control.accelerate = list(list()))
-{
+                   accelerate = c("em","squarem","pem","qn"), control.accelerate = list(list())) {
   control <- do.call("logbin.control", control)
-  
   accelerate <- match.arg(accelerate)
   
   x <- as.matrix(x)
   xnames <- dimnames(x)[[2L]]
   ynames <- if (is.matrix(y))
-      rownames(y)
+    rownames(y)
   else names(y)
   
   if (any(x < 0)) stop("x must be non-negative")
@@ -22,7 +20,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
   n <- weights <- rep(1, nobs)
   if (is.null(offset)) offset <- rep.int(0, nobs)
   if (any(offset > 0))
-      stop("offset must be non-positive")
+    stop("offset must be non-positive")
   
   fam <- binomial(link = log)
   eval(fam$initialize)
@@ -48,9 +46,9 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
       stop("'start' is on our outside the boundary of the parameter space (consider 'bound.tol')", domain = NA)
     else start
   } else {
-    simple <- log(mean(y)) / colMeans(x) - 2*control$bound.tol
+    simple <- log(mean(y)) / colMeans(x) - 2 * control$bound.tol
     logy <- log(y)
-    logy[is.infinite(logy)] <- min(logy[!is.infinite(logy)]) - 2*control$bound.tol
+    logy[is.infinite(logy)] <- min(logy[!is.infinite(logy)]) - 2 * control$bound.tol
     trymat <- tryCatch(as.vector(solve(t(x) %*% x) %*% t(x) %*% (logy)) + 2*control$bound.tol,
                        error = function(e) NULL)
     if (is.null(trymat)) simple
@@ -62,7 +60,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
     x1 <- sweep(x, 2, FUN = "*", x.s)
     p.scale <- p / x.s
     eta <- drop(x1 %*% p.scale) + o
-    estep <- y1 + y2*((matrix(fam$linkinv(p.scale), nobs, nvars, byrow = TRUE) - fam$linkinv(eta))/(1 - fam$linkinv(eta)))
+    estep <- y1 + y2 * ((matrix(fam$linkinv(p.scale), nobs, nvars, byrow = TRUE) - fam$linkinv(eta))/(1 - fam$linkinv(eta)))
     pnew.scale <- log(colSums(estep * x1) / colSums(n * x1))
     pnew <- pnew.scale * x.s
     pnew[pnew >= 0] <- -bound.tol / 2
@@ -70,14 +68,14 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
   }
   
   objfn <- function(p, y1, y2, n, x, x.s, o, nobs, nvars, fam, bound.tol) {
-		eta <- drop(x %*% p) + o
-		mu <- n * fam$linkinv(eta)
+    eta <- drop(x %*% p) + o
+    mu <- n * fam$linkinv(eta)
     negll <- -sum(dbinom(y1, size = n, prob = mu / n, log = TRUE))
-		return(negll)
-	}
+    return(negll)
+  }
   
   validparams <- function(p) return(all(p <= 0))
-	
+  
   conv.user <- function(old,new) return(conv.test(old, new, tol))
   
   res <- turboEM::turboem(par = coefold, fixptfn = fixptfn, objfn = objfn, method = accelerate,

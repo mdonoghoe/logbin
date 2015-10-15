@@ -1,8 +1,7 @@
 logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset, control = list(...),
                             model = TRUE, model.logbin = FALSE, method = c("cem","em"),
                             accelerate = c("em","squarem","pem","qn"), control.accelerate = list(list()),
-                            ...)
-{
+                            ...) {
   call <- match.call()
   method <- match.arg(method)
   accelerate = match.arg(accelerate)
@@ -22,7 +21,7 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
   mf$drop.unused.levels <- TRUE
   mf$na.action <- na.fail
   mf[[1L]] <- as.name("model.frame")
-	if (!missing(na.action)) mf$na.action <- na.action
+  if (!missing(na.action)) mf$na.action <- na.action
   mf <- eval(mf, parent.frame())
   control <- do.call("logbin.control", control)
   control2 <- control
@@ -79,10 +78,10 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
         if (thismodel$converged & !thismodel$boundary) break
       }
     }
-		if (!best.model$converged || (!allconv & best.model$boundary))
-			warning(gettextf("%s: algorithm did not converge within %d iterations -- increase 'maxit'.",
-							best.model$method,control$maxit), call. = FALSE)
-		if(!allconv) allconvk <- FALSE
+    if (!best.model$converged || (!allconv & best.model$boundary))
+      warning(gettextf("%s: algorithm did not converge within %d iterations -- increase 'maxit'.",
+              best.model$method,control$maxit), call. = FALSE)
+    if(!allconv) allconvk <- FALSE
     reparam.call <- call("logbin.smooth.reparameterise", coefficients = best.model$coefficients,
                           interpret = gp, type = method, allref = allref, knots = best.knots,
                           design.knots = allknots[k,,drop=FALSE], design.param = best.param)
@@ -92,39 +91,39 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
     nvars <- length(reparam$coefs)
     vardiff <- length(best.model$coefficients) - nvars
     aic.c <- best.model$aic - 2 * vardiff + 2 * nvars * (nvars + 1) / (NROW(best.model$y) - nvars - 1)
-		if(control$trace > 0)
-			cat("AIC_c:",aic.c,"\n")
-		if(aic.c < bestk.aic) {
-			bestk <- k
-			bestk.model <- best.model
-			bestk.aic <- aic.c
-			bestk.allref <- allref
-			bestk.param <- best.param
-			bestk.knots <- best.knots
-		}
+    if(control$trace > 0)
+      cat("AIC_c:",aic.c,"\n")
+    if(aic.c < bestk.aic) {
+      bestk <- k
+      bestk.model <- best.model
+      bestk.aic <- aic.c
+      bestk.allref <- allref
+      bestk.param <- best.param
+      bestk.knots <- best.knots
+    }
   }
-	
-	if(bestk.model$boundary) {
-		if(bestk.model$np.coefficients[1] > -control$bound.tol)
-			warning(gettextf("%s: fitted probabilities numerically 1 occurred",
+  
+  if (bestk.model$boundary) {
+    if (bestk.model$np.coefficients[1] > -control$bound.tol)
+      warning(gettextf("%s: fitted probabilities numerically 1 occurred",
                        bestk.model$method), call. = FALSE)
-		else
-			warning(gettextf("%s: MLE on boundary of parameter space",
+    else
+      warning(gettextf("%s: MLE on boundary of parameter space",
                        bestk.model$method), call. = FALSE)
-	} 
-	
-	reparam.call <- call("logbin.smooth.reparameterise", coefficients = bestk.model$coefficients,
+  } 
+  
+  reparam.call <- call("logbin.smooth.reparameterise", coefficients = bestk.model$coefficients,
                         interpret = gp, type = method, allref = bestk.allref, knots = bestk.knots,
                         design.knots = allknots[bestk,,drop=FALSE], design.param = bestk.param)
-	if (!missing(subset)) reparam.call$subset <- subset
-	if (!missing(na.action)) reparam.call$na.action <- na.action
-	reparam <- eval(reparam.call)
+  if (!missing(subset)) reparam.call$subset <- subset
+  if (!missing(na.action)) reparam.call$na.action <- na.action
+  reparam <- eval(reparam.call)
   
   nvars <- length(reparam$coefs)
   vardiff <- length(bestk.model$coefficients) - nvars
   aic.c <- bestk.model$aic - 2 * vardiff + 2 * nvars * (nvars + 1) / (NROW(bestk.model$y) - nvars - 1)
-	
-	fit <- list(coefficients = reparam$coefs, residuals = bestk.model$residuals,
+  
+  fit <- list(coefficients = reparam$coefs, residuals = bestk.model$residuals,
               fitted.values = bestk.model$fitted.values,
               rank = nvars, family = family,
               linear.predictors = bestk.model$linear.predictors,
@@ -145,7 +144,7 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
                xlevels = bestk.model$xlevels, xminmax = xminmax.smooth, knots = bestk.knots)
 
   fit <- c(fit, fit2)            
-	class(fit) <- c("logbin.smooth","logbin","glm","lm")
+  class(fit) <- c("logbin.smooth", "logbin", "glm", "lm")
     
   fit
 }

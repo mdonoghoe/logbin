@@ -1,8 +1,8 @@
 logbin.design <- function(terms, data, type = c("cem","em"), allref, mono, design.ref) {
   type <- match.arg(type)
   terms.new <- terms
-	data.new <- data
-	termlabels <- attr(terms, "term.labels")
+  data.new <- data
+  termlabels <- attr(terms, "term.labels")
   design.type <- sapply(allref, attr, "type")
   ref.vector <- as.vector(design.ref, mode = "integer")
   for (i in seq_len(length(design.ref))) {
@@ -31,6 +31,6 @@ logbin.design <- function(terms, data, type = c("cem","em"), allref, mono, desig
     }
   }
   attr(data.new, "terms") <- terms.new
-  X <- model.matrix(terms.new, data.new)	
-	X
+  X <- model.matrix(terms.new, data.new)  
+  X
 }

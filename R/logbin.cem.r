@@ -1,6 +1,5 @@
 logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
-                       control.accelerate, warn)
-{
+                       control.accelerate, warn) {
   control2 <- control
   control2$trace <- (control$trace > 1)
 
@@ -46,23 +45,23 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
     }
   }
     
-  if(length(allref$allref) == 0) {
-		np.coefs <- coefs <- coefs.boundary <- best.model$coefficients
-		nn.design <- design <- model.matrix(allref$terms, allref$data)
-	} else {
-		np.coefs <- best.model$coefficients
-		nn.design <- logbin.design(allref$terms, allref$data, "cem", allref$allref, allref$monotonic, design.all[best.param,])
-		reparam <- logbin.reparameterise(np.coefs, mt, mf, "cem", allref$allref, allref$monotonic, design.all[best.param,])
-		coefs <- reparam$coefs
-		design <- reparam$design
+  if (length(allref$allref) == 0) {
+    np.coefs <- coefs <- coefs.boundary <- best.model$coefficients
+    nn.design <- design <- model.matrix(allref$terms, allref$data)
+  } else {
+    np.coefs <- best.model$coefficients
+    nn.design <- logbin.design(allref$terms, allref$data, "cem", allref$allref, allref$monotonic, design.all[best.param,])
+    reparam <- logbin.reparameterise(np.coefs, mt, mf, "cem", allref$allref, allref$monotonic, design.all[best.param,])
+    coefs <- reparam$coefs
+    design <- reparam$design
     coefs.boundary <- reparam$coefs.boundary
-	}
+  }
   
   boundary <- any(coefs.boundary > -control$bound.tol)
   
-  if(warn) {
-    if(!best.model$converged | (!allconv & best.model$boundary)) {
-      if(identical(accelerate, "em"))
+  if (warn) {
+    if (!best.model$converged | (!allconv & best.model$boundary)) {
+      if (identical(accelerate, "em"))
         warning(gettextf("nplbin: algorithm did not converge within %d iterations -- increase 'maxit'.", control$maxit), 
                 call. = FALSE)
       else
@@ -70,8 +69,8 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
                          accelerate, control$maxit),
                 call. = FALSE)
     }
-    if(boundary) {
-      if(coefs.boundary[1] > -control$bound.tol)
+    if (boundary) {
+      if (coefs.boundary[1] > -control$bound.tol)
           warning("nplbin: fitted probabilities numerically 1 occurred", call. = FALSE)
       else
           warning("nplbin: MLE on boundary of constrained parameter space", call. = FALSE)
