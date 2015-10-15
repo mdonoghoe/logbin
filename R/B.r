@@ -19,7 +19,7 @@ B <- function(..., knots = NULL, knot.range = 0:5) {
 	if (term[1] == ".")
 		stop("B(.) is not supported")
 	termname <- attr(terms(reformulate(term[1])),"term.labels")
-	termlabel <- paste("B(",termname,")",sep="")
+	termlabel <- paste0("B(", termname, ")")
 	ret <- list(term = term, termlabel = termlabel, knots = knots, 
               knot.range = knot.range)
   class(ret) <- "B.smooth"

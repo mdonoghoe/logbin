@@ -12,7 +12,7 @@ interpret.logbin.smooth <- function(formula) {
 	
 	respvar <- attr(tf, "response")
 	response <- as.character(vars[respvar+1L])
-	full.formula <- fake.formula <- paste(response, "~", sep = "")
+	full.formula <- fake.formula <- paste0(response, "~")
 	
 	Bp <- attr(tf, "specials")$B
 	Isop <- attr(tf, "specials")$Iso
@@ -35,19 +35,19 @@ interpret.logbin.smooth <- function(formula) {
 			smooth.spec[[st$term]] <- st
 		} else full.newterm <- fake.newterm <- as.character(vars[varind+1L])
 		if (kp > 1) {
-      full.formula <- paste(full.formula, "+", full.newterm, sep = "")
-      fake.formula <- paste(fake.formula, "+", fake.newterm, sep = "")
+      full.formula <- paste0(full.formula, "+", full.newterm)
+      fake.formula <- paste0(fake.formula, "+", fake.newterm)
     } else {
-      full.formula <- paste(full.formula, full.newterm, sep = "")
-      fake.formula <- paste(fake.formula, fake.newterm, sep = "")
+      full.formula <- paste0(full.formula, full.newterm)
+      fake.formula <- paste0(fake.formula, fake.newterm)
     }
 		kp <- kp + 1
 	}
 	
 	if (!is.null(off)) {
     if (kp > 1)
-      fake.formula <- paste(fake.formula, "+", sep = "")
-    fake.formula <- paste(fake.formula, paste(as.character(vars[off+1L]),collapse="+"), sep = "")
+      fake.formula <- paste0(fake.formula, "+")
+    fake.formula <- paste0(fake.formula, paste(as.character(vars[off+1L]),collapse="+"))
     kp <- kp + 1
   }
     

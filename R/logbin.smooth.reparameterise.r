@@ -39,7 +39,7 @@ logbin.smooth.reparameterise <- function(coefficients, interpret, type = c("cem"
 				coefs.new.int <- coefs.new.int + coefs.smth.ord[1]
 				coefs.smth.new <- (coefs.smth.ord - coefs.smth.ord[1])[-1]
 			}
-			names.smth.new <- paste(smthlabel, 2:(num.knots-3), sep = "")
+			names.smth.new <- paste0(smthlabel, 2:(num.knots-3))
 		}
 		if (smthtype == "B.smooth" && length(ref) == 1 && type == "em") {
       coefs.new[which.smth] <- c(0,coefs.smth.new)

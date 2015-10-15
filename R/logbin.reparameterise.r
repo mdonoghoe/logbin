@@ -70,7 +70,7 @@ logbin.reparameterise <- function(np.coefs, terms, data, type = c("cem","em"), a
         coefs.boundary <- coefs.boundary + max(thiscoef)
         coefs.model.reparam[(coef.count.n + 1L):(coef.count.n + nlev - 1L)] <- thiscoef.new
       }
-      coef.names <- append(coef.names, paste(varname, lev[-1L], sep = ""))
+      coef.names <- append(coef.names, paste0(varname, lev[-1L]))
       coef.count.o <- coef.count.o + nlev - as.numeric(type == "cem")
       coef.count.n <- coef.count.n + nlev - 1
     } else if (design.type[i] == 3) {
@@ -84,7 +84,7 @@ logbin.reparameterise <- function(np.coefs, terms, data, type = c("cem","em"), a
       coefs.int.reparam <- coefs.int.reparam + thiscoef.ord[1L]
       coefs.boundary <- append(coefs.boundary, thiscoef)
       coefs.model.reparam[(coef.count.n + 1L):(coef.count.n + nlev - 1L)] <- thiscoef.new
-      coef.names <- append(coef.names, paste(varname, lev[-1L], sep = ""))
+      coef.names <- append(coef.names, paste0(varname, lev[-1L]))
       coef.count.o <- coef.count.o + nlev - 1L
       coef.count.n <- coef.count.n + nlev - 1L
     }

@@ -9,7 +9,7 @@ Iso <- function(...) {
 	if (term[1] == ".")
 		stop("Iso(.) is not supported")
 	termname <- attr(terms(reformulate(term[1])),"term.labels")
-	termlabel <- paste("Iso(",termname,")",sep="")
+	termlabel <- paste0("Iso(" ,termname, ")")
 	ret <- list(term = term, termlabel = termlabel, knots = NA, 
                     knot.range = NA)
     class(ret) <- "Iso.smooth"

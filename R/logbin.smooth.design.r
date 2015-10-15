@@ -22,7 +22,7 @@ logbin.smooth.design <- function(interpret, type = c("cem","em"), allref, design
       x.new <- matrix(0, nrow = nobs, ncol = length(unique.x)-1)
       for (i in 2:length(unique.x))
         x.new[, i-1] <- as.numeric(x < unique.x[i])
-      colnames(x.new) <- paste(smthlabel, 2L:length(unique.x), sep = "")
+      colnames(x.new) <- paste0(smthlabel, 2L:length(unique.x))
     } else if (smthtype == "B.smooth") {
       min.x <- min(x, na.rm = TRUE)
       max.x <- max(x, na.rm = TRUE)
@@ -43,7 +43,7 @@ logbin.smooth.design <- function(interpret, type = c("cem","em"), allref, design
       }
 			B <- matrix(NA, nrow = nobs, ncol = length(knots[[smth]])-3)
       B[!is.na(x),] <- splines::splineDesign(knots[[smth]], x, ord = 3)
-      colnames(B) <- paste(smthlabel, seq_len(ncol(B)), sep = "")
+      colnames(B) <- paste0(smthlabel, seq_len(ncol(B)))
       ref <- allref$allref[[smth]][[as.numeric(design.param[smth])]]
       if (length(ref)==1) {
         if (type == "cem") x.new <- B[, -ref, drop=FALSE]
@@ -58,7 +58,7 @@ logbin.smooth.design <- function(interpret, type = c("cem","em"), allref, design
     nvar.new <- NCOL(x.new)
     varnames.new <- colnames(x.new)
     data.new <- cbind(data.new, -x.new)
-    formula.rhs <- gsub(smthlabel, paste(paste("`",varnames.new,"`",sep=""), 
+    formula.rhs <- gsub(smthlabel, paste(paste0("`", varnames.new, "`"), 
                         collapse=" + "), formula.rhs, fixed = TRUE)
     pos <- which(names(monotonic.new) == smth)
     mono.add <- rep(TRUE, nvar.new)

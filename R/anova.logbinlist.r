@@ -14,7 +14,7 @@ anova.logbinlist <- function(object, ..., test = NULL)
 	boundary <- sapply(object, "[[", "boundary")
 	if(any(boundary)) {
 		object <- object[!boundary]
-		warning(paste("model(s) ",paste(which(boundary),collapse=", ")," removed because MLE is on the boundary of the parameter space",sep=""))
+		warning(paste0("model(s) ",paste(which(boundary),collapse=", ")," removed because MLE is on the boundary of the parameter space"))
 	}
     nmodels <- length(object)
     if (nmodels == 0)
@@ -48,7 +48,7 @@ anova.logbinlist <- function(object, ..., test = NULL)
 		"Df", "Deviance"))
 	if (doscore) table <- cbind(table, Rao = score)
 	title <- "Analysis of Deviance Table\n"
-	topnote <- paste("Model ", format(1L:nmodels), ": ", variables, sep = "", collapse = "\n")
+	topnote <- paste0("Model ", format(1L:nmodels), ": ", variables, collapse = "\n")
 	if(!is.null(test)) {
 		bigmodel <- object[[order(resdf)[1L]]]
 		dispersion <- summary(bigmodel)$dispersion

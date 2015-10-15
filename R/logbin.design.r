@@ -14,7 +14,7 @@ logbin.design <- function(terms, data, type = c("cem","em"), allref, mono, desig
       if (varref == 1) data.new[[varname]] <- data[[varname]] - cont.min
       else data.new[[varname]] <- cont.max - data[[varname]]
       if (type == "em" && !mono[termlabels[i]]) {
-        varname.rev <- paste(varname, ".rev", sep = "")
+        varname.rev <- paste0(varname, ".rev")
         if (varref == 1) data.new[[varname.rev]] <- cont.max - data[[varname]]
         else data.new[[varname.rev]] <- data[[varname]] - cont.min
         terms.new <- terms(update(terms.new, as.formula(paste(".~. +", varname.rev))))

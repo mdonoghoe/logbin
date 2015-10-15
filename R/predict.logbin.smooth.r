@@ -29,11 +29,11 @@ predict.logbin.smooth <- function(object, newdata = NULL, type = c("link", "resp
 				x.new <- matrix(0, nrow = nrow(newdata), ncol = length(knots[[smth]]) - 1)
 				for(i in 2:length(knots[[smth]]))
 					x.new[, (i-1)] <- as.numeric(x >= knots[[smth]][i])
-				colnames(x.new) <- paste(smthlabel, 2L:length(knots[[smth]]), sep = "")
+				colnames(x.new) <- paste0(smthlabel, 2L:length(knots[[smth]]))
 			} else if (smthtype == "B.smooth") {
 				B <- matrix(NA, nrow = nrow(newdata), ncol = length(knots[[smth]]-3))
 				B <- splines::splineDesign(knots[[smth]], x, ord = 3, outer.ok = FALSE)
-				colnames(B) <- paste(smthlabel, seq_len(ncol(B)), sep = "")
+				colnames(B) <- paste0(smthlabel, seq_len(ncol(B)))
 				x.new <- B[, -1, drop = FALSE]
 			}
 			newdata <- cbind(newdata, x.new)

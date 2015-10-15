@@ -44,7 +44,7 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
     
   for (k in seq_len(n.allknots)) {
     if (control$trace > 0)
-      cat("Knots: ",paste(allknots[k,],collapse=", "),"\n",sep="")
+      cat("Knots: ", paste0(allknots[k,], collapse = ", "), "\n", sep = "")
     allref <- logbin.smooth.allref(mt, mdata, method, mono, gp, allknots[k,])
     design.numref <- sapply(allref$allref, length)
     design.all <- expand.grid(lapply(design.numref, seq_len))
@@ -56,7 +56,7 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
     best.knots <- NULL
     allconv <- TRUE
     for (param in seq_len(nparam)) {
-      if (control$trace > 1) cat("logbin.smooth parameterisation ",param,"/",nparam,"\n",sep="")
+      if (control$trace > 1) cat("logbin.smooth parameterisation ", param, "/", nparam, "\n", sep = "")
       modelspec <- logbin.smooth.design(gp, method, allref, allknots[k, , drop = FALSE], 
                                         design.all[param, , drop = FALSE])
       data.new <- modelspec$data
