@@ -43,8 +43,11 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
   }
   
   gradll <- function(theta, y, n, x, o) {
-    # Gradient of **negative** log-likelihood
+    p.fit <- exp(drop(x %*% theta) + o)
+    ll.grad <- y * x - (n - y) * x * (p.fit / (1 - p.fit))
+    ll.grad[p.fit %in% c(0, 1), ] <- 0
+    -colSums(ll.grad)
   }
   
-  fit.ab <- constrOptim(theta.start, f = negll, y = y1, n = n, x = x, o = offset)
+  fit.ab <- constrOptim(theta.start, f = negll, grad = gradll, y = y1, n = n, x = x, o = offset)
 }
