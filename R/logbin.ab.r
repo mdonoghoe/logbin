@@ -49,5 +49,7 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
     -colSums(ll.grad)
   }
   
-  fit.ab <- constrOptim(theta.start, f = negll, grad = gradll, y = y1, n = n, x = x, o = offset)
+  control.optim <- list()
+  
+  fit.ab <- constrOptim(theta.start, f = negll, grad = gradll, ui = -x, ci = 0, y = y1, n = n, x = x, o = offset, hessian = FALSE)
 }

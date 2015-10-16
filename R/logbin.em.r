@@ -1,5 +1,5 @@
 logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("em","squarem","pem","qn"),
-                      control.accelerate, warn)
+                      control.method, warn)
 {
   accelerate = match.arg(accelerate)
   control2 <- control
@@ -15,7 +15,7 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
     X <- logbin.design(allref$terms, allref$data, "em", allref$allref, allref$monotonic, design.all[1,])
   }
   
-  thismodel <- nplbin(Y, X, offset, allref$start.new, control2, accelerate, control.accelerate)
+  thismodel <- nplbin(Y, X, offset, allref$start.new, control2, accelerate, control.accelerate = list(control.method))
   
   if (length(allref$allref) == 0) {
     np.coefs <- coefs <- coefs.boundary <- thismodel$coefficients

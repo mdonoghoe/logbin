@@ -1,5 +1,5 @@
 logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
-                       control.accelerate, warn) {
+                       control.method, warn) {
   control2 <- control
   control2$trace <- (control$trace > 1)
 
@@ -16,7 +16,7 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
     if(control$trace > 0) cat("logbin parameterisation 1/1\n")
     X <- model.matrix(allref$terms, allref$data)
     best.model <- nplbin(Y, X, offset, allref$start.new, control2,
-                         accelerate, control.accelerate)
+                         accelerate, control.accelerate = list(control.method))
     best.loglik <- best.model$loglik
     best.param <- 0
     allconv <- best.model$converged
@@ -31,7 +31,7 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
       if(control$trace > 0) cat("logbin parameterisation ",param,"/",nparam,"\n",sep="")
       X <- logbin.design(allref$terms, allref$data, "cem", allref$allref, allref$monotonic, design.all[param,])
       thismodel <- nplbin(Y, X, offset, if (param == 1) allref$start.new else NULL,
-                          control2, accelerate, control.accelerate)
+                          control2, accelerate, control.accelerate = list(control.method))
       if(!thismodel$converged) allconv <- FALSE
       if(control$trace > 0 & control$trace <= 1)
         cat("Deviance =", thismodel$deviance, "Iterations -", thismodel$iter, "\n")
