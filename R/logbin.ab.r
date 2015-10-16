@@ -1,6 +1,6 @@
 logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, warn) {
   x <- as.matrix(model.matrix(mt, mf))
-  xnames <- dimnames(x)
+  xnames <- dimnames(x)[[2L]]
   y <- Y
   ynames <- if (is.matrix(y))
     rownames(y)
@@ -14,6 +14,12 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
   
   fam <- binomial(link = log)
   eval(fam$initialize)
+  
+  mu.eta <- fam$mu.eta
+  linkinv <- fam$linkinv
+  dev.resids <- fam$dev.resids
+  aic <- fam$aic
+  
   y1 <- round(n * y)
   
   if (!is.null(start)) {
@@ -63,5 +69,28 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
                         control = control.method, method = method, outer.iterations = control$maxit,
                         outer.eps = control$epsilon, y = y1, n = n, x = x, offset = offset,
                         hessian = FALSE)
-  print(fit.ab)
+  
+  coefficients <- fit.ab$par
+  names(coefficients) <- xnames
+  eta <- drop(x %*% coefficients) + offset
+  mu <- n * linkinv(eta)
+  residuals <- (y - (mu / n)) / mu.eta(eta)
+  deviance <- sum(dev.resids(y, mu / n, n))
+  loglik <- -fit.ab$value
+  aic.model <- aic(y, n, mu / n, weights, dev.new) + 2 * nvars
+  aic.c <- aic.model + 2 * nvars * (nvars + 1) / (nobs - nvars - 1)
+  wtdmu <- sum(n * y) / sum(n)
+  null.deviance <- sum(dev.resids(y, wtdmu, n))
+  iter <- fit.ab$counts["function"]
+  names(iter) <- NULL
+  converged <- as.logical(fit.ab$convergence)
+  # STILL TO DO
+  boundary <- FALSE
+  
+  list(coefficients = coefficients, residuals = residuals, fitted.values = mu / n,
+       rank = nvars, linear.predictors = eta, deviance = deviance,
+       loglik = -fit.ab$value, aic = aic.model, aic.c = aic.c, null.deviance = null.deviance,
+       iter = iter, prior.weights = n, weights = weights,
+       df.residual = nobs - nvars, df.null = nobs - 1, converged = as.logical(fit.ab$convergence),
+       boundary = boundary, message = fit.ab$message)
 }
