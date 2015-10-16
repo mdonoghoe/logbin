@@ -69,10 +69,11 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
     }
   
     logbin.method <- paste("logbin", method, sep = ".")
-    res <- do.call(logbin.method, list(mt = mt, mf = mf, Y = Y, offset = offset, mono = mono,
-                                       start = start, control = control, accelerate = accelerate, 
-                                       control.method = control.method,
-                                       warn = warn))    
+    logbin.args <- list(mt = mt, mf = mf, Y = Y, offset = offset, mono = mono,
+                        start = start, control = control)
+    if (method %in% c("cem", "em")) logbin.args$accelerate <- accelerate
+    logbin.args <- c(logbin.args, list(control.method = control.method, warn = warn))
+    res <- do.call(logbin.method, logbin.args)    
     mres <- match(outnames, names(res), 0L)
     fit[names(res)[mres]] <- res[mres]
     fit$family <- family

@@ -1,14 +1,15 @@
 logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, warn) {
   x <- as.matrix(model.matrix(mt, mf))
   xnames <- dimnames(x)
+  y <- Y
   ynames <- if (is.matrix(y))
     rownames(y)
   else names(y)
   
-  nvars <- ncol(X)
+  nvars <- ncol(x)
   nobs <- NROW(y)
   
-  n <- rep(1, nobs)
+  n <- weights <- rep(1, nobs)
   if (is.null(offset)) offset <- rep.int(0, nobs)
   
   fam <- binomial(link = log)
@@ -37,13 +38,13 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
     }
   }
   
-  negll <- function(theta, y, n, x, o) {
-    p.fit <- exp(drop(x %*% theta) + o)
+  negll <- function(theta, y, n, x, offset) {
+    p.fit <- exp(drop(x %*% theta) + offset)
     -sum(dbinom(y, size = n, prob = p.fit, log = TRUE))
   }
   
-  gradll <- function(theta, y, n, x, o) {
-    p.fit <- exp(drop(x %*% theta) + o)
+  gradll <- function(theta, y, n, x, offset) {
+    p.fit <- exp(drop(x %*% theta) + offset)
     ll.grad <- y * x - (n - y) * x * (p.fit / (1 - p.fit))
     ll.grad[p.fit %in% c(0, 1), ] <- 0
     -colSums(ll.grad)
@@ -51,5 +52,6 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
   
   control.optim <- list()
   
-  fit.ab <- constrOptim(theta.start, f = negll, grad = gradll, ui = -x, ci = 0, y = y1, n = n, x = x, o = offset, hessian = FALSE)
+  fit.ab <- constrOptim(theta.start, f = negll, grad = gradll, ui = -x, ci = 0, y = y1, n = n, x = x, offset = offset, hessian = FALSE)
+  print(fit.ab)
 }
