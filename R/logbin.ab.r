@@ -50,8 +50,18 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
     -colSums(ll.grad)
   }
   
-  control.optim <- list()
+  if (!is.null(control.method$method)) {
+    method <- control.method$method
+    control.method$method <- NULL
+  } else
+    method <- "BFGS"
   
-  fit.ab <- constrOptim(theta.start, f = negll, grad = gradll, ui = -x, ci = 0, y = y1, n = n, x = x, offset = offset, hessian = FALSE)
+  control.method$trace <- pmax(control$trace - 1, 0)
+  control.method$maxit <- control$maxit
+  
+  fit.ab <- constrOptim(theta.start, f = negll, grad = gradll, ui = -x, ci = 0, 
+                        control = control.method, method = method, outer.iterations = control$maxit,
+                        outer.eps = control$epsilon, y = y1, n = n, x = x, offset = offset,
+                        hessian = FALSE)
   print(fit.ab)
 }
