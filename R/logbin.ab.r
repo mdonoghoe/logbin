@@ -83,14 +83,26 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
   null.deviance <- sum(dev.resids(y, wtdmu, n))
   iter <- fit.ab$counts["function"]
   names(iter) <- NULL
-  converged <- as.logical(fit.ab$convergence)
-  # STILL TO DO
-  boundary <- FALSE
+  
+  converged <- as.logical(fit.ab$convergence == 0)
+  boundary <- any(eta >= -control$bound.tol)
+  
+  if (warn) {
+    if (!converged) {
+      if (fit.ab$convergence == 10)
+        warning("constrOptim: algorithm did not converge -- Nelder-Mead simplex degenerate", call. = FALSE)
+      else
+        warning(paste0("constrOptim: algorithm did not converge (message: ",
+                       fit.ab$message, ")"), call. = FALSE)
+    }
+    if (boundary)
+      warning("constrOptim: fitted probabilities numerically 1 occurred", call. = FALSE)
+  }
   
   list(coefficients = coefficients, residuals = residuals, fitted.values = mu / n,
        rank = nvars, linear.predictors = eta, deviance = deviance,
        loglik = -fit.ab$value, aic = aic.model, aic.c = aic.c, null.deviance = null.deviance,
        iter = iter, prior.weights = n, weights = weights,
-       df.residual = nobs - nvars, df.null = nobs - 1, converged = as.logical(fit.ab$convergence),
-       boundary = boundary, message = fit.ab$message)
+       df.residual = nobs - nvars, df.null = nobs - 1, converged = converged,
+       boundary = boundary)
 }
