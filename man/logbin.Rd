@@ -99,7 +99,7 @@ logbin(formula, mono = NULL, data, subset, na.action, start = NULL,
   algorithm to be used, (partially) matching one of \code{"em"} (no acceleration -- the default), 
   \code{"squarem"}, \code{"pem"} or \code{"qn"}. See \code{\link[turboEM]{turboem}}
   for further details. Note that \code{"decme"} is not permitted, and the \code{accelerate}
-  option is ignored altogether if \code{method %in% c("glm", "glm2", "ab")}.
+  option is ignored altogether if \code{method} is one of \code{c("glm", "glm2", "ab")}.
 }
   \item{control.method}{
     a list of control parameters for the fitting algorithm.
