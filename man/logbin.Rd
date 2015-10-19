@@ -7,7 +7,7 @@ Log-Binomial Regression
 \concept{CEM algorithm}
 \description{
 \code{logbin} fits relative risk (log-link) binomial
-regression models using a stable combinatorial EM algorithm.
+regression models.
 }
 \usage{
 logbin(formula, mono = NULL, data, subset, na.action, start = NULL,
@@ -24,7 +24,7 @@ logbin(formula, mono = NULL, data, subset, na.action, start = NULL,
   model specification are given under "Details".  Note that
   the model must contain an intercept, and 2nd-order terms
   (such as interactions) or above are currently not supported
-  --- see "Note".
+  by the \code{"cem"} and \code{"em"} methods --- see "Note".
 }
   \item{mono}{
 	a vector indicating which terms in
@@ -34,7 +34,7 @@ logbin(formula, mono = NULL, data, subset, na.action, start = NULL,
   terms.
   
   \code{method = "glm"} and \code{"glm2"} cannot impose
-  monotonicity constraints. They are also not currently
+  monotonicity constraints, and they are not currently
   supported for \code{method = "ab"}.
 }
   \item{data}{
@@ -91,15 +91,14 @@ logbin(formula, mono = NULL, data, subset, na.action, start = NULL,
   \code{"ab"} implements an adaptive barrier method, using the
   \code{\link{constrOptim}} function.
   
-  However, \code{"\link{glm}"} or \code{"\link[glm2]{glm2}"} may be used
+  \code{"\link{glm}"} or \code{"\link[glm2]{glm2}"} may be used
   to compare the results from the usual IWLS algorithms on the same model.
 }
   \item{accelerate}{
-    a character string that determines the acceleration
-  algorithm to be used, (partially) matching one of \code{"em"} (no acceleration -- the default), 
+    for the \code{"cem"} and \code{"em"} methods, a character string that determines the acceleration
+  algorithm to be used, (partially) matching one of \code{"em"} (no acceleration --- the default), 
   \code{"squarem"}, \code{"pem"} or \code{"qn"}. See \code{\link[turboEM]{turboem}}
-  for further details. Note that \code{"decme"} is not permitted, and the \code{accelerate}
-  option is ignored altogether if \code{method} is one of \code{c("glm", "glm2", "ab")}.
+  for further details. Note that \code{"decme"} is not permitted.
 }
   \item{control.method}{
     a list of control parameters for the fitting algorithm.
@@ -108,7 +107,7 @@ logbin(formula, mono = NULL, data, subset, na.action, start = NULL,
   if \code{method = "cem"} or \code{"em"}.
   
   If \code{method = "ab"}, this is passed to the \code{control} argument of
-  \code{\link{constrOptim}} (and hence to \code{\link{optim}} -- see this documentation
+  \code{\link{constrOptim}} (and hence to \code{\link{optim}} --- see this documentation
   for full details). Note that the \code{trace} and \code{maxit} elements are 
   ignored and the equivalent items from the supplied \code{logbin.control} argument
   are used instead. May also contain element \code{method} (default \code{"BFGS"}), 
@@ -161,7 +160,10 @@ values within the Cartesian product of the observed range of covariate
 values, whereas \code{\link{glm}} produces valid fitted values just 
 for the observed covariate combinations (assuming it successfully 
 converges). This issue is only relevant when \code{logbin} 
-converges to a boundary point.
+converges to a boundary point. The adaptive barrier approach defines 
+the parameter space in the same way as \code{\link{glm}}, so the
+same comments apply when comparing its results to those from
+\code{method = "cem"} or \code{"em"}.
 
 The main computational method is an EM-type algorithm which accommodates 
 the parameter contraints in the model and is more stable than iteratively
@@ -254,7 +256,9 @@ by using \code{\link{logbin.smooth}}.
 \seealso{
 \code{\link{logbin.smooth}} for semi-parametric models
 
-\code{\link[turboEM]{turboem}} for acceleration methods.
+\code{\link[turboEM]{turboem}} for acceleration methods
+
+\code{\link{constrOptim}} for the adaptive barrier approach.
 }
 \examples{
 require(glm2)
