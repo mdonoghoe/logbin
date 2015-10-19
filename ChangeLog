@@ -3,7 +3,7 @@
 
 2.0
 
-*** 'method' option added: fit using glm, glm2, CEM or single EM algorithm with overparameterised model
+*** 'method' option added: fit using glm, glm2, adaptive barrier, CEM or single EM algorithm with overparameterised model
 
 *** 'accelerate' option added: use turboEM methods to speed up convergence
 
