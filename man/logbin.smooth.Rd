@@ -84,6 +84,9 @@ logbin.smooth(formula, mono = NULL, data, subset, na.action, offset,
   which cycles through a sequence of constrained parameter spaces, or
   \code{"em"} for a single EM algorithm based on an overparameterised
   model.
+  
+  Unlike \code{\link{logbin}}, methods \code{"glm"} and \code{"ab"} are
+  not available because they do not support the necessary monotonicity constraints.
 }
   \item{accelerate}{
     a character string that determines the acceleration
