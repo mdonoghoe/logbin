@@ -64,7 +64,7 @@ logbin.allref <- function(object, data = environment(object), type = c("cem","em
       else allref[[term]] <- as.list(abs(3 * as.numeric(start.orig[this.start.o] > 0) - 1:2))
       if (!is.null(start)) {
         if (monotonic[term]) {
-          start.new.int <- start.new.int + start.orig[this.start.o] * cont.min
+          start.new.int <- start.new.int + start.orig[this.start.o] * cont.max
           start.new.other[this.start.n-1] <- -start.orig[this.start.o]
         } else {
           cont.delta <- as.numeric(start.orig[this.start.o] <= 0)
