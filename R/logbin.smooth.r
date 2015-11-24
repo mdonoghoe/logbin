@@ -1,6 +1,6 @@
 logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset, control = list(...),
                             model = TRUE, model.logbin = FALSE, method = c("cem","em"),
-                            accelerate = c("em","squarem","pem","qn"), control.accelerate = list(list()),
+                            accelerate = c("em","squarem","pem","qn"), control.accelerate = list(),
                             ...) {
   call <- match.call()
   method <- match.arg(method)
@@ -62,7 +62,7 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
       data.new[["(offset)"]] = os
       modelf <- call("logbin",formula = eval(modelspec$formula), mono = eval(modelspec$monotonic), 
                       data = as.name("data.new"), control = control2, method = method,
-                      accelerate = accelerate, control.accelerate = control.accelerate,
+                      accelerate = accelerate, control.method = control.accelerate,
                       warn = FALSE, fit = TRUE)
       if (!is.null(os)) modelf$offset = as.name("(offset)")
       if (!missing(subset)) modelf$subset = subset
