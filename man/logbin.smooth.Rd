@@ -13,7 +13,7 @@ semi-parametric terms.
 logbin.smooth(formula, mono = NULL, data, subset, na.action, offset, 
               control = list(...), model = TRUE, model.logbin = FALSE, 
               method = c("cem", "em"), accelerate = c("em", "squarem", "pem", "qn"),
-              control.accelerate = list(list()), ...)
+              control.accelerate = list(), ...)
 }
 \arguments{
   \item{formula}{
