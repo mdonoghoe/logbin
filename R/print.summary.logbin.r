@@ -46,7 +46,7 @@ print.summary.logbin <- function(x, digits = max(3L, getOption("digits") - 3L),
   if (nzchar(mess <- naprint(x$na.action))) 
     cat("  (", mess, ")\n", sep = "")
   cat("\n", apply(cbind(paste(format(c("AIC:","AIC_c:"), justify = "right"), format(unlist(x[c("aic","aic.c")]), digits = max(4L, digits + 1L)),"\n")), 1L, paste, collapse = " "),  
-      "\n", "Number of iterations: ", x$iter, 
+      "\n", "Number of iterations: ", x$iter[1], if(identical(x$method, "cem")) {c(" (best: ", x$iter[2], ")")},
       "\n", sep = "")
   correl <- x$correlation
   if (!is.null(correl)) {

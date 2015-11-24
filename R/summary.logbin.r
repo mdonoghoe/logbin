@@ -42,7 +42,7 @@ summary.logbin <- function(object, correlation = FALSE, ...) {
   names(aliased) <- names(coef.p)
   
   keep <- match(c("call", "family", "deviance", "aic", "aic.c", "df.residual",
-                  "null.deviance", "df.null", "iter", "na.action"), names(object), 0L)
+                  "null.deviance", "df.null", "iter", "na.action", "method"), names(object), 0L)
   ans <- c(object[keep], list(deviance.resid = residuals(object,type="deviance"),
                               coefficients = coef.table, aliased = FALSE,
                               dispersion = dispersion, df = c(p, df.r, p),
