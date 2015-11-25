@@ -32,7 +32,7 @@ contr.isotonic.rev(n, perm, contrasts = TRUE, sparse = FALSE)
 }
 }
 \details{
-This function is used to create the design matrix
+This function is used in creating the design matrix
 for categorical covariates with a specified order under a
 particular parameterisation. This is required
 if a categorical covariate is defined as monotonic.
