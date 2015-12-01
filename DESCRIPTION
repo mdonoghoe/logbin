@@ -1,7 +1,7 @@
 Package: logbin
 Title: Relative Risk Regression Using the Log-Binomial Model
 Description: Methods for fitting log-link GLMs and GAMs to binomial data,
-    using EM-type algorithms with more stable convergence properties than standard methods.
+    including EM-type algorithms with more stable convergence properties than standard methods.
 Version: 2.0
 Date: 2015-10-19
 Author: Mark W. Donoghoe <mark.donoghoe@mq.edu.au>
