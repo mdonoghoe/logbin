@@ -85,6 +85,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
                                              stoptype = "maxiter", maxiter = control$maxit,
                                              convfn.user = conv.user, trace = control$trace),
                           control.method = control.accelerate)
+  if (res$fail[1]) stop(res$errors[1])
   coefnew <- res$pars[1,]
   names(coefnew) <- xnames
     
