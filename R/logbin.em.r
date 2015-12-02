@@ -8,6 +8,7 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
   allref <- logbin.allref(mt, mf, "em", mono, start)
   design.numref <- sapply(allref$allref, length)
   
+  if(control$trace > 0) cat("logbin parameterisation 1/1\n")
   if (length(allref$allref) == 0)
     X <- model.matrix(allref$terms, allref$data)
   else {
@@ -16,6 +17,9 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
   }
   
   thismodel <- nplbin(Y, X, offset, allref$start.new, control2, accelerate, control.accelerate = list(control.method))
+  
+  if(control$trace > 0 & control$trace <= 1)
+    cat("Deviance =", thismodel$deviance, "Iterations -", thismodel$iter, "\n")
   
   if (length(allref$allref) == 0) {
     np.coefs <- coefs <- coefs.boundary <- thismodel$coefficients
