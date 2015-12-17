@@ -22,7 +22,6 @@ logbin.allref <- function(object, data = environment(object), type = c("cem","em
   isF <- vapply(data, function(x) is.factor(x) || is.logical(x), NA)
   isF[int] <- FALSE
   
-  nobs <- nrow(data)
   termlist <- attr(t, "term.labels")
   nvar <- length(termlist)
     
