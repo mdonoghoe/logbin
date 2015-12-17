@@ -75,6 +75,9 @@ logbin(formula, mono = NULL, data, subset, na.action, start = NULL,
 	a list of parameters for controlling the
   fitting process, passed to
   \code{\link{logbin.control}}.
+  
+  With \code{method = "cem"}, \code{epsilon}
+  should be smaller than \code{bound.tol}.
 }
   \item{model}{
 	a logical value indicating whether the \emph{model frame} 
