@@ -29,6 +29,8 @@ logbin.control(bound.tol = 1e-06, epsilon = 1e-08, maxit = 10000, trace = 0)
   \sum (\theta_{old} - \theta_{new})^2} / \sqrt {\sum
   \theta_{old}^2} < \epsilon}, where \eqn{\theta} is the
   vector of parameter estimates. See \code{\link{conv.test}}.
+  
+  This should be smaller than \code{bound.tol}.
 }
   \item{maxit}{
 	integer giving the maximum number of EM
