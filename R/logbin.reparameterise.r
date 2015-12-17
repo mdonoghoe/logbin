@@ -66,7 +66,7 @@ logbin.reparameterise <- function(np.coefs, terms, data, type = c("cem","em"), a
       } else {
         thiscoef <- coefs.model[(coef.count.o + 1L):(coef.count.o + nlev)]
         thiscoef.new <- thiscoef[-1L] - thiscoef[1L]
-        coefs.int.reparam <- coefs.int.reparam - max(c(0,thiscoef.new))
+        coefs.int.reparam <- coefs.int.reparam + thiscoef[1L]
         coefs.boundary <- coefs.boundary + max(thiscoef)
         coefs.model.reparam[(coef.count.n + 1L):(coef.count.n + nlev - 1L)] <- thiscoef.new
       }
