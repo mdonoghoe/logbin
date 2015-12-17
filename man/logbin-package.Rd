@@ -13,7 +13,7 @@ algorithms with more stable convergence properties than standard methods.
 Package: \tab logbin\cr
 Type: \tab Package\cr
 Version: \tab 2.0\cr
-Date: \tab 2015-10-19\cr
+Date: \tab 2015-12-17\cr
 License: \tab GPL (>= 2)\cr
 }
 This package provides methods to fit generalised linear models (GLMs) and generalised additive
@@ -45,7 +45,7 @@ constraints on each individual parameter. This requires a single application of
 the EM algorithm.
 
 In each case, the EM algorithm may be accelerated by using the capabilities of the
-\pkg{\link[turboem]{turboEM}} package.
+\pkg{\link[turboEM:turboem]{turboEM}} package.
 
 For GLMs, an adaptive barrier approach, which uses a constrained optimisation
 algorithm, is also provided.
@@ -72,7 +72,7 @@ and flexible methods for log-binomial models. \emph{Biostatistics} 13(1): 179--1
 \keyword{ package }
 \keyword{ regression }
 \seealso{
-\code{\link{glm}}, \pkg{\link[=glm2-package]{glm2}}, \pkg{\link[turboem]{turboEM}}
+\code{\link{glm}}, \pkg{\link[=glm2-package]{glm2}}, \pkg{\link[turboEM:turboem]{turboEM}}
 }
 \examples{
 ## For examples, see example(logbin) and example(logbin.smooth)
