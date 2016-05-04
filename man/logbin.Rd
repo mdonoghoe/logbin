@@ -279,9 +279,14 @@ fit.glm <- glm(cbind(Deaths, Patients-Deaths) ~ factor(AgeGroup) + factor(Severi
   trace = TRUE, maxit = 100)
 
 fit.logbin <- logbin(formula(fit.glm), data = heart, trace = 1)
-## (Note that convergence may be sped up by specifying mono = c(1,2))
-
 summary(fit.logbin)
+
+# Speed up convergence by using single EM algorithm
+fit.logbin.em <- update(fit.logbin, method = "em")
+
+# Speed up convergence by using acceleration methods
+fit.logbin.acc <- update(fit.logbin, accelerate = "squarem")
+fit.logbin.em.acc <- update(fit.logbin.em, accelerate = "squarem")
 }
 
 #=============================
