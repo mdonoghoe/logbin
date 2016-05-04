@@ -13,7 +13,7 @@ algorithms with more stable convergence properties than standard methods.
 Package: \tab logbin\cr
 Type: \tab Package\cr
 Version: \tab 2.0\cr
-Date: \tab 2015-12-17\cr
+Date: \tab 2016-05-04\cr
 License: \tab GPL (>= 2)\cr
 }
 This package provides methods to fit generalised linear models (GLMs) and generalised additive
