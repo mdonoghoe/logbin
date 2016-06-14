@@ -1,6 +1,19 @@
 import(splines)
 import(glm2)
 import(turboEM)
+importFrom("grDevices", "dev.new", "rainbow")
+importFrom("graphics", "abline", "lines", "plot")
+importFrom("stats", ".MFclass", ".checkMFClasses", ".getXlevels",
+           "AIC", "as.formula", "binomial", "confint.default",
+           "constrOptim", "contr.treatment", "contrasts<-", "dbinom",
+           "delete.response", "family", "formula", "get_all_vars",
+           "glm.control", "glm.fit", "is.empty.model", "logLik",
+           "model.frame", "model.matrix", "model.offset",
+           "model.response", "na.fail", "na.pass", "napredict",
+           "naprint", "nobs", "pnorm", "predict", "printCoefmat",
+           "quantile", "reformulate", "relevel", "residuals",
+           "setNames", "stat.anova", "terms", "terms.formula",
+           "update")
 S3method(confint,logbin)
 S3method(anova,logbin)
 S3method(anova,logbinlist)
