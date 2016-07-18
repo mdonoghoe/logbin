@@ -25,4 +25,4 @@ citEntry(
 )
 
 citFooter("Call citation(\"logbin\", auto = TRUE) to obtain a reference to the package itself,
-           and toBibtex() to get the BibTeX entry for LaTeX users")
+           and use toBibtex() to get the BibTeX entry for LaTeX users")
