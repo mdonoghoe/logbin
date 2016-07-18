@@ -62,7 +62,25 @@ rownames(res) <- c("glm", "cem", "em", "cem.acc", "em.acc")
 res
 ```
 
-<!-- Still to add: adaptive barrier, semi-parametric examples -->
+An adaptive barrier algorithm can also be applied using `method = "ab"`, with user-specified options via `control.method`: see `help(logbin)` for more details.
+
+Semi-parametric regression using B-splines (Donoghoe and Marschner, 2015) can be incorporated by using the `logbin.smooth` function. See `example(logbin.smooth)` for a simple example.
+
+## Installation
+
+Get the released version from CRAN:
+
+```{r, echo = TRUE, eval = FALSE}
+install.packages("logbin")
+```
+
+Or the development version from github:
+
+```{r, echo = TRUE, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("mdonoghoe/logbin")
+```
 
 ## References
-* Marschner, I. C. and A. C. Gillett (2012). Relative risk regression: reliable and flexible methods for log-binomial models. _Biostatistics_ __13__(1): 179–192.
+* Donoghoe, M. W. and I. C. Marschner (2015). Flexible regression models for rate differences, risk differences and relative risks. _International Journal of Biostatistics_ __11__(1): 91-108.
+* Marschner, I. C. and A. C. Gillett (2012). Relative risk regression: reliable and flexible methods for log-binomial models. _Biostatistics_ __13__(1): 179-192.
