@@ -27,7 +27,7 @@ non-linear predictor of the model. This should have row and column names corresp
 to the parameter names given by the \code{\link{coef}} method.
 }
 \author{
-Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
+Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 }
 \note{
 If \code{object$boundary == TRUE}, the standard errors of the coefficients

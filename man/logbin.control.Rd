@@ -57,7 +57,7 @@ the precision.
 A list with components named as the arguments.
 }
 \author{
-Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
+Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 }
 \seealso{
 \code{\link{glm.control}}, the equivalent function for

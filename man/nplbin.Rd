@@ -89,7 +89,7 @@ Marschner, I. C. and A. C. Gillett (2012). Relative risk regression: reliable
 and flexible methods for log-binomial models. \emph{Biostatistics} 13(1): 179--192.
 }
 \author{
-Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}.
+Mark W. Donoghoe \email{markdonoghoe@gmail.com}.
 
 This function is based on code from Marschner and Gillett (2012) written by Alexandra Gillett.
 }

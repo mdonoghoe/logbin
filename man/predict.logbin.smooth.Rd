@@ -55,7 +55,7 @@ A vector or matrix of predictions. For \code{type = "terms"}, this is a matrix w
 a column per term, and may have an attribute \code{"constant"}.
 }
 \author{
-Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
+Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 }
 \note{
 Variables are first looked for in \code{newdata} and then searched for in the usual 

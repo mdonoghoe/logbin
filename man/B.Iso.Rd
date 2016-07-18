@@ -63,7 +63,7 @@ specified). \code{NA} for \code{Iso}.}
 \code{NA} for \code{Iso}.}
 }
 \author{
-Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
+Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 }
 \seealso{
 \code{\link{logbin.smooth}}

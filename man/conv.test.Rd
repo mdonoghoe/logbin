@@ -38,7 +38,7 @@ A logical; \code{TRUE} if
 epsilon}; \code{FALSE} otherwise.
 }
 \author{
-Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
+Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 }
 \examples{
 theta.old <- c(-4,-5,-6)

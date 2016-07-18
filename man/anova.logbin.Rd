@@ -55,7 +55,7 @@ An object of class \code{"anova"} inheriting from class
 \code{"data.frame"}.
 }
 \author{
-Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
+Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 }
 \seealso{
 \code{\link{logbin}}, \code{\link{anova.glm}},

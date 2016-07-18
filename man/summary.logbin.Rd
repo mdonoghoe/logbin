@@ -69,7 +69,7 @@ matrix of the estimated coefficients. \code{NaN} if \code{object$boundary == TRU
 of the estimated coefficients. \code{NaN} if \code{object$boundary == TRUE}.}
 }
 \author{
-Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
+Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 }
 \note{
 If \code{object$boundary == TRUE}, the standard errors of the coefficients

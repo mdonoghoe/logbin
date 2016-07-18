@@ -51,9 +51,9 @@ For GLMs, an adaptive barrier approach, which uses a constrained optimisation
 algorithm, is also provided.
 }
 \author{
-Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
+Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 
-Maintainer: Mark W. Donoghoe \email{mark.donoghoe@mq.edu.au}
+Maintainer: Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 }
 \references{
 Donoghoe, M. W. and I. C. Marschner (2015). Flexible regression models for rate 
