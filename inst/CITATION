@@ -9,7 +9,8 @@ citEntry(
   pages = "179-192",
   year = "2012",
   author = personList(person("Ian C.", "Marschner"), person("Alexandra C.", "Gillett")),
-  doi = "10.1093/biostatistics/kxr030"
+  doi = "10.1093/biostatistics/kxr030",
+  textVersion = "Marschner, I. C. and A. C. Gillett (2012). Relative risk regression: Reliable and flexible methods for log-binomial models. Biostatistics 13(1): 179-192"
 )
 
 citEntry(
@@ -21,7 +22,8 @@ citEntry(
   pages = "91-108",
   year = "2015",
   author = personList(person("Mark W. Donoghoe"), person("Ian C.", "Marschner")),
-  doi = "10.1515/ijb-2014-0044"
+  doi = "10.1515/ijb-2014-0044",
+  textVersion = "Flexible regression models for rate differences, risk differences and relative risks. International Journal of Biostatistics 11(1): 91-108"
 )
 
 citFooter("Call citation(\"logbin\", auto = TRUE) to obtain a reference to the package itself,
