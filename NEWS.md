@@ -1,3 +1,11 @@
+# logbin 2.0.1.9000
+
+* ...
+
+# logbin 2.0.1
+
+* (Had to increment version number to satisfy CRAN check after correcting an error)
+
 # logbin 2.0
 
 * `method` option added: fit using glm, glm2, adaptive barrier, CEM or single EM algorithm with overparameterised model
