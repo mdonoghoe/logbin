@@ -1,6 +1,6 @@
 # logbin 2.0.1.9000
 
-* ...
+* Changed `logbin.ab` so that `outer.iterations` can be set by `control$maxit` in the call to `logbin`, and `maxit` (inner iterations) is set by `control.method$maxit`.
 
 # logbin 2.0.1
 

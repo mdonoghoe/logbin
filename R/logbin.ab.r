@@ -63,7 +63,6 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
     method <- "BFGS"
   
   control.method$trace <- pmax(control$trace - 1, 0)
-  control.method$maxit <- control$maxit
   
   fit.ab <- constrOptim(theta.start, f = negll, grad = gradll, ui = -x, ci = 0, 
                         control = control.method, method = method, outer.iterations = control$maxit,
