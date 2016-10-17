@@ -61,7 +61,7 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
               linear.predictors = thismodel$linear.predictors, deviance = thismodel$deviance,
               loglik = thismodel$loglik, aic = thismodel$aic - 2*vardiff, aic.c = aic.c,
               null.deviance = thismodel$null.deviance, iter = thismodel$iter,
-              prior.weights = thismodel$prior.weights, weights = rep(1, NROW(Y)),
+              prior.weights = thismodel$prior.weights,
               df.residual = thismodel$df.residual + vardiff, df.null = thismodel$df.null,
               y = thismodel$y, x = design, converged = thismodel$converged,
               boundary = boundary, np.coefficients = np.coefs,

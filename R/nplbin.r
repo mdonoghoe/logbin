@@ -108,7 +108,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
     
   list(coefficients = coefnew, residuals = residuals, fitted.values = mu / n, rank = nvars,
        family = fam, linear.predictors = eta, deviance = dev.new, aic = aic.model, 
-       aic.c = aic.c.model, null.deviance = nulldev, iter = res$itr[1], weights = weights, 
+       aic.c = aic.c.model, null.deviance = nulldev, iter = res$itr[1], 
        prior.weights = n, df.residual = resdf, df.null = nulldf, y = y, 
        converged = res$convergence[1], boundary = boundary, loglik = -res$value.objfn[1], 
        nn.design = x)   
