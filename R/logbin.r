@@ -77,9 +77,7 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
     mres <- match(outnames, names(res), 0L)
     fit[names(res)[mres]] <- res[mres]
     fit$family <- family
-    fit$weights <- rep(1, NROW(Y))
-    names(fit$weights) <- names(Y)
-    good <- fit$weights > 0
+    good <- rep(TRUE, NROW(Y))
     w <- sqrt((fit$prior.weights[good] * family$mu.eta(fit$linear.predictors)[good]^2) / family$variance(fit$fitted.values)[good])
     z <- (fit$linear.predictors - (if(is.null(offset)) rep.int(0, NROW(Y)) else offset))[good] + 
       (fit$y - fit$fitted.values)[good] / family$mu.eta(fit$linear.predictors)[good]
@@ -91,6 +89,9 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
     xnames <- dimnames(fit$x)[[2L]]
     xxnames <- xnames[fit$qr$pivot]
     names(fit$effects) <- c(xxnames[seq_len(fit$rank)], rep.int("", sum(good) - fit$rank))
+    fit$weights <- rep.int(0, NROW(Y))
+    fit$weights[good] <- w^2
+    names(fit$weights) <- names(fit$y)
     if(model) fit$model <- mf
     fit$na.action <- attr(mf, "na.action")
     fit$terms <- mt
