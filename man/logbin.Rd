@@ -210,9 +210,7 @@ extract various useful features of the value returned by
 
 An object of class \code{"logbin"} is a list containing the
 same components as an object of class \code{"glm"} (see the
-"Value" section of \code{\link{glm}}), but without
-\code{contrasts}, \code{qr}, \code{R} or \code{effects}
-components. It also includes: 
+"Value" section of \code{\link{glm}}). It also includes: 
 \item{loglik}{the maximised log-likelihood.}
 \item{aic.c}{a small-sample corrected
 version of Akaike's \emph{An Information Criterion}

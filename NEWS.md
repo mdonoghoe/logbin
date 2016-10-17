@@ -1,7 +1,7 @@
 # logbin 2.0.1.9000
 
 * Changed `logbin.ab` so that `outer.iterations` can be set by `control$maxit` in the call to `logbin`, and `maxit` (inner iterations) is set by `control.method$maxit`.
-* `logbin` now returns `qr`, `R` and `effects` components, so associated `glm` S3 methods (e.g. `influence`, `plot`) will work.
+* `logbin` now returns `contrasts`, `qr`, `R` and `effects` components, so associated `glm` S3 methods (e.g. `influence`, `plot`) will work.
 * `weights` component returned is the IRLS working weights at the last iteration, for consistency with `glm` (even though these are not actually used except with `method = "glm"`).
 
 # logbin 2.0.1
