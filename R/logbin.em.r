@@ -57,7 +57,7 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
   }
   
   fit <- list(coefficients = coefs, residuals = thismodel$residuals,
-              fitted.values = thismodel$fitted.values, rank = nvars,
+              fitted.values = thismodel$fitted.values,
               linear.predictors = thismodel$linear.predictors, deviance = thismodel$deviance,
               loglik = thismodel$loglik, aic = thismodel$aic - 2*vardiff, aic.c = aic.c,
               null.deviance = thismodel$null.deviance, iter = thismodel$iter,

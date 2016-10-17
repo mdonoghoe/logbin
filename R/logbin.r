@@ -10,7 +10,7 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
   if(missing(data)) data <- environment(formula)
   control <- do.call("logbin.control", control)
     
-  outnames <- c("coefficients", "residuals", "fitted.values", "rank", "family",
+  outnames <- c("coefficients", "residuals", "fitted.values", "rank", "qr", "family",
                 "linear.predictors", "deviance", "loglik", "aic", "aic.c",
                 "null.deviance", "iter", "prior.weights", "weights",
                 "df.residual", "df.null", "y", "x")
@@ -78,6 +78,13 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
     fit[names(res)[mres]] <- res[mres]
     fit$family <- family
     fit$weights <- rep(1, NROW(Y))
+    names(fit$weights) <- names(Y)
+    good <- fit$weights > 0
+    w <- sqrt((fit$weights[good] * family$mu.eta(fit$linear.predictors)[good]^2) / family$variance(fit$fitted.values)[good])
+    qr.tol <- min(1e-07, control$epsilon/1000)
+    qr.val <- qr.default(fit$x * w, qr.tol, LAPACK = FALSE)
+    fit$rank <- qr.val$rank
+    fit$qr <- structure(append(qr.val[c("qr", "rank", "qraux", "pivot")], list(tol = qr.tol)), class = "qr")
     if(model) fit$model <- mf
     fit$na.action <- attr(mf, "na.action")
     fit$terms <- mt
