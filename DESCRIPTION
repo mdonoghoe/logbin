@@ -3,7 +3,7 @@ Title: Relative Risk Regression Using the Log-Binomial Model
 Description: Methods for fitting log-link GLMs and GAMs to binomial data,
     including EM-type algorithms with more stable convergence properties than standard methods.
 Version: 2.0.1.9000
-Date: 2016-07-19
+Date: 2016-10-18
 Authors@R: c(person("Mark W.", "Donoghoe", email = "markdonoghoe@gmail.com", rol = c("aut","cre")),
              person("Ian C.", "Marschner", rol = "ths"),
              person("Alexandra C.", "Gillett", rol = "ctb", comment = "wrote an initial version of the nplbin function"))
