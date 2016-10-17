@@ -16,7 +16,7 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
                 "df.residual", "df.null", "y", "x")
   if (model) outnames <- c(outnames, "model")
   outnames <- c(outnames, "converged", "boundary", "na.action", "call",
-                "formula", "terms", "data", "offset", "control", "method", "xlevels",
+                "formula", "terms", "data", "offset", "control", "method", "contrasts", "xlevels",
                 "xminmax", "np.coefficients", "nn.x")
   fit <- sapply(outnames, function(x) NULL)
   
@@ -110,6 +110,7 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
     fit$terms <- mt
     fit$data <- data
     fit$offset <- offset
+    fit$contrasts <- attr(fit$x, "contrasts")
     fit$xlevels <- .getXlevels(mt, mf)
     fit$xminmax <- .getXminmax(mt, mf)
   }
