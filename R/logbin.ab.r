@@ -99,9 +99,8 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
   }
   
   list(coefficients = coefficients, residuals = residuals, fitted.values = mu / n,
-       rank = nvars, linear.predictors = eta, deviance = deviance,
+       linear.predictors = eta, deviance = deviance,
        loglik = -fit.ab$value, aic = aic.model, aic.c = aic.c, null.deviance = null.deviance,
-       iter = iter, prior.weights = n,
-       df.residual = nobs - nvars, df.null = nobs - 1, converged = converged,
-       boundary = boundary)
+       iter = iter, prior.weights = n, df.residual = nobs - nvars, df.null = nobs - 1, 
+       y = y, x = x, converged = converged, boundary = boundary)
 }
