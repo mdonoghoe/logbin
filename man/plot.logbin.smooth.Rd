@@ -4,12 +4,14 @@
 Default logbin.smooth Plotting
 }
 \description{
-Takes a fitted \code{logbin.smooth} object produced by \code{\link{logbin.smooth}} and plots
-the component smooth functions that make it up,
+The main use is to take a fitted \code{logbin.smooth} object produced by 
+\code{\link{logbin.smooth}} and plot the component smooth functions that make it up,
 for specified values of the other covariates.
+
+Alternatively, plots the model diagnostics usually provided by \code{\link{plot.lm}}.
 }
 \usage{
-\method{plot}{logbin.smooth}(x, type = c("response", "link"), at = data.frame(), 
+\method{plot}{logbin.smooth}(x, type = c("response", "link", "diagnostics"), at = data.frame(), 
      knotlines = TRUE, nobs = 1000, ...)
 }
 \arguments{
@@ -17,8 +19,10 @@ for specified values of the other covariates.
 	a fitted \code{logbin.smooth} object as produced by \code{\link{logbin.smooth}}.
 }
   \item{type}{
-	the type of prediction required. Note that, unlike \code{\link{predict.logbin.smooth}},
-	\code{"terms"} is not a valid option.
+	for \code{"response"} and \code{"link"}, the type of prediction required. 
+	Note that, unlike \code{\link{predict.logbin.smooth}}, \code{"terms"} is not a valid option.
+	
+	for \code{"diagnostics"}, \code{\link{plot.lm}} is called.
 }
   \item{at}{
 	a data frame containing the values at which the prediction should be evaluated. The columns
@@ -34,7 +38,8 @@ for specified values of the other covariates.
 	the range of the observed covariate values from the original model.
 }
   \item{\dots}{
-	other graphics parameters to pass on to plotting commands (note: some will not work).
+	other graphics parameters to pass on to plotting commands, in particular any arguments to
+	\code{\link{plot.lm}} (e.g. \code{which}).
 }
 }
 \details{
