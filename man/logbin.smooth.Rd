@@ -118,8 +118,7 @@ the semi-parametric model (see Donoghoe and Marschner, 2015).
 }
 \value{
 An object of class \code{"logbin.smooth"}, which contains the same objects as class
-\code{"logbin"} (the same as \code{"\link{glm}"} objects, without \code{contrasts},
-\code{qr}, \code{R} or \code{effects} components), as well as:
+\code{"logbin"} (the same as \code{"\link{glm}"}), as well as:
 \item{model.logbin}{if \code{model.logbin} is \code{TRUE}; the \code{logbin} object
 for the fully parametric model corresponding to the fitted model.}
 \item{xminmax.smooth}{the minimum and maximum observed values for

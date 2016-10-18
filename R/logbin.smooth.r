@@ -124,8 +124,8 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
   aic.c <- bestk.model$aic - 2 * vardiff + 2 * nvars * (nvars + 1) / (NROW(bestk.model$y) - nvars - 1)
   
   fit <- list(coefficients = reparam$coefs, residuals = bestk.model$residuals,
-              fitted.values = bestk.model$fitted.values,
-              rank = nvars, family = family,
+              fitted.values = bestk.model$fitted.values, effects = bestk.model$effects,
+              R = bestk.model$R, rank = bestk.model$rank, qr = bestk.model$qr, family = family,
               linear.predictors = bestk.model$linear.predictors,
               deviance = bestk.model$deviance, loglik = bestk.model$loglik,
               aic = bestk.model$aic - 2*vardiff, aic.c = aic.c,
@@ -140,7 +140,7 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
   fit2 <- list(converged = bestk.model$converged, boundary = bestk.model$boundary,
                na.action = attr(reparam$mf, "na.action"), call = call, formula = formula, 
                full.formula = gp$full.formula, terms = mt, terms.full = reparam$mt, 
-               data = data, offset = os, control = control, method = method,
+               data = data, offset = os, control = control, method = method, contrasts = bestk.model$contrasts,
                xlevels = bestk.model$xlevels, xminmax = xminmax.smooth, knots = bestk.knots)
 
   fit <- c(fit, fit2)            
