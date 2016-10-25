@@ -79,8 +79,14 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
       }
     }
     if (!best.model$converged || (!allconv & best.model$boundary))
-      warning(gettextf("%s: algorithm did not converge within %d iterations -- increase 'maxit'.",
-              best.model$method,control$maxit), call. = FALSE)
+      if (identical(accelerate, "em"))
+        warning(gettextf("%s: algorithm did not converge within %d iterations -- increase 'maxit'.",
+                          best.model$method, control$maxit), 
+                call. = FALSE)
+      else
+        warning(gettextf("%s(%s): algorithm did not converge within %d iterations -- increase 'maxit' or try with 'accelerate = \"em\"'.",
+                          best.model$method, accelerate, control$maxit),
+                call. = FALSE)
     if(!allconv) allconvk <- FALSE
     reparam.call <- call("logbin.smooth.reparameterise", coefficients = best.model$coefficients,
                           interpret = gp, type = method, allref = allref, knots = best.knots,
