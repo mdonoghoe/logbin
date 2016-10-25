@@ -137,7 +137,7 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
   if(model.logbin) fit$model.logbin <- bestk.model
   xminmax.smooth <- bestk.model$xminmax
   xminmax.smooth[reparam$smoothnames] <- NULL
-  fit2 <- list(converged = bestk.model$converged, boundary = bestk.model$boundary,
+  fit2 <- list(converged = allconvk, boundary = bestk.model$boundary,
                na.action = attr(reparam$mf, "na.action"), call = call, formula = formula, 
                full.formula = gp$full.formula, terms = mt, terms.full = reparam$mt, 
                data = data, offset = os, control = control, method = method, contrasts = bestk.model$contrasts,
