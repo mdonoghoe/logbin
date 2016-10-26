@@ -4,6 +4,7 @@
 * `logbin` now returns `contrasts`, `qr`, `R` and `effects` components, so associated `glm` S3 methods (e.g. `influence`, `plot`) will work.
 * `weights` component returned is the IRLS working weights at the last iteration, for consistency with `glm` (even though these are not actually used except with `method = "glm"`).
 * `plot.logbin.smooth` with `type = "diagnostics"` will plot the model diagnostics usually produced by `plot.lm`.
+* `plot.logbin.smooth` will allow extra parameters (e.g. `col`, `ylim`) to be passed.
 
 # logbin 2.0.1
 
