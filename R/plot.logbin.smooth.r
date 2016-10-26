@@ -1,6 +1,11 @@
 plot.logbin.smooth <- function(x, type = c("response", "link", "diagnostics"), at = data.frame(), 
                         knotlines = TRUE, nobs = 1000, ...) {
   type <- match.arg(type)
+  extraargs <- list(...)
+  extraargs2 <- extraargs
+  extraargs2$ylim <- NULL
+  extraargs2$ylab <- NULL
+  extraargs2$col <- NULL
   if (type == "diagnostics") plot(structure(x, class = c("glm", "lm")), ...)
   else {
     gp <- interpret.logbin.smooth(x$full.formula)
@@ -30,13 +35,22 @@ plot.logbin.smooth <- function(x, type = c("response", "link", "diagnostics"), a
       pred <- list()
       for (j in 1:length(dat))
         pred[[j]] <- predict(x, newdata = dat[[j]], type = type)
-      ylim <- c(min(sapply(pred, min)), max(sapply(pred, max)))
-      plot(smthx, pred[[1]], type = "n", ylim = ylim, xlab = smthterms[i], ylab = type)
+      ylim2 <- c(min(sapply(pred, min)), max(sapply(pred, max)))
+      ylab2 <- type
+      plotargs <- list(x = smthx, y = pred[[1]], type = "n", xlab = smthterms[i])
+      plotargs$ylim <- if(!is.null(extraargs[["ylim"]])) extraargs[["ylim"]] else ylim2
+      plotargs$ylab <- if(!is.null(extraargs[["ylab"]])) extraargs[["ylab"]] else ylab2
+      do.call(plot, c(plotargs, extraargs2))
       if(knotlines & smthtype != "Iso.smooth")
         abline(v = smthknots, col = "gray", lwd = 0.5)
       plotcols <- rainbow(length(pred))
-      for (j in 1:length(pred))
-        lines(smthx, pred[[j]], type = ltype, col = plotcols[j], ...)
+      if(!is.null(extraargs[["col"]])) plotcols <- rep(extraargs[["col"]], length(pred))
+      lineargs <- list(x = smthx, type = ltype)
+      for (j in 1:length(pred)) {
+        lineargs$y <- pred[[j]]
+        lineargs$col <- plotcols[j]
+        do.call(lines, c(lineargs, extraargs2))
+      }
     }
   }
 }
