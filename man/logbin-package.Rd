@@ -12,8 +12,8 @@ algorithms with more stable convergence properties than standard methods.
 \tabular{ll}{
 Package: \tab logbin\cr
 Type: \tab Package\cr
-Version: \tab 2.0.1.9000\cr
-Date: \tab 2016-10-18\cr
+Version: \tab 2.0.2\cr
+Date: \tab 2017-03-07\cr
 License: \tab GPL (>= 2)\cr
 }
 This package provides methods to fit generalised linear models (GLMs) and generalised additive
