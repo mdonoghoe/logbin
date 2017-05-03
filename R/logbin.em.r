@@ -24,6 +24,7 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
   if (length(allref$allref) == 0) {
     np.coefs <- coefs <- coefs.boundary <- thismodel$coefficients
     nn.design <- design <- X
+    if (control$coeftrace) coefhist <- thismodel$coefhist
   } else {
     np.coefs <- thismodel$coefficients
     nn.design <- X
@@ -31,6 +32,13 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
     coefs <- reparam$coefs
     design <- reparam$design
     coefs.boundary <- reparam$coefs.boundary
+    if (control$coeftrace) {
+      reparamhist <- apply(thismodel$coefhist, 1, function(x) logbin.reparameterise(x, mt, mf, "em", allref$allref,
+                                                                                    allref$monotonic, design.all[1,])$coefs)
+      coefhist <- t(reparamhist)
+      colnames(coefhist) <- names(coefs)
+      rownames(coefhist) <- rownames(thismodel$coefhist)
+    }
   }
   
   nvars <- length(coefs)
@@ -66,5 +74,6 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
               y = thismodel$y, x = design, converged = thismodel$converged,
               boundary = boundary, np.coefficients = np.coefs,
               nn.x = nn.design)
+  if (control$coeftrace) fit$coefhist <- coefhist
   fit
 }

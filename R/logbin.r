@@ -18,6 +18,7 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
   outnames <- c(outnames, "converged", "boundary", "na.action", "call",
                 "formula", "terms", "data", "offset", "control", "method", "contrasts", "xlevels",
                 "xminmax", "np.coefficients", "nn.x")
+  if (control$coeftrace) outnames <- c(outnames, "coefhist")
   fit <- sapply(outnames, function(x) NULL)
   
   if (method %in% c("glm", "glm2")) {

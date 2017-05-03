@@ -83,14 +83,37 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
   
   conv.user <- function(old,new) return(conv.test(old, new, tol))
   
-  res <- turboEM::turboem(par = coefold, fixptfn = fixptfn, objfn = objfn, method = accelerate,
-                          pconstr = validparams, project = projfn, y1 = y1, y2 = y2, n = n, x = x, x.s = x.scale,
-                          o = offset, nobs = nobs, nvars = nvars, fam = fam, bound.tol = control$bound.tol,
-                          control.run = list(convtype = "parameter", tol = control$epsilon,
-                                             stoptype = "maxiter", maxiter = control$maxit,
-                                             convfn.user = conv.user, trace = control$trace),
-                          control.method = control.accelerate)
-  if (res$fail[1]) stop(res$errors[1])
+  emargs <- list(par = coefold, fixptfn = fixptfn, objfn = objfn, method = accelerate,
+                 pconstr = validparams, project = projfn, y1 = y1, y2 = y2, n = n, x = x, x.s = x.scale,
+                 o = offset, nobs = nobs, nvars = nvars, fam = fam, bound.tol = control$bound.tol,
+                 control.run = list(convtype = "parameter", tol = control$epsilon,
+                                    stoptype = "maxiter", maxiter = control$maxit,
+                                    convfn.user = conv.user, trace = control$trace),
+                 control.method = control.accelerate)
+  
+  if (!control$coeftrace) {
+    res <- do.call(turboEM::turboem, emargs)
+    if (res$fail[1]) stop(res$errors[1])
+    iter <- res$itr[1]
+  } else {
+    coefhist <- coefold
+    iter <- 0
+    converged <- FALSE
+    
+    emargs$control.run$maxiter <- 1
+    
+    while(!converged && iter < control$maxit) {
+      emargs$par = coefold
+      res <- do.call(turboEM::turboem, emargs)
+      if (res$fail[1]) stop(res$errors[1])
+      coefold <- res$pars[1,]
+      coefhist <- rbind(coefhist, as.vector(coefold))
+      iter <- iter + 1
+      converged <- res$convergence[1]
+    }
+    colnames(coefhist) <- xnames
+    rownames(coefhist) <- 0:iter
+  }
   coefnew <- res$pars[1,]
   names(coefnew) <- xnames
     
@@ -111,10 +134,12 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
     
   boundary <- any(coefnew > -control$bound.tol)
     
-  list(coefficients = coefnew, residuals = residuals, fitted.values = mu / n, rank = nvars,
-       family = fam, linear.predictors = eta, deviance = dev.new, aic = aic.model, 
-       aic.c = aic.c.model, null.deviance = nulldev, iter = res$itr[1], 
-       prior.weights = n, df.residual = resdf, df.null = nulldf, y = y, 
-       converged = res$convergence[1], boundary = boundary, loglik = -res$value.objfn[1], 
-       nn.design = x)   
+  result <- list(coefficients = coefnew, residuals = residuals, fitted.values = mu / n, 
+                 rank = nvars, family = fam, linear.predictors = eta, deviance = dev.new, 
+                 aic = aic.model, aic.c = aic.c.model, null.deviance = nulldev, iter = iter, 
+                 prior.weights = n, df.residual = resdf, df.null = nulldf, y = y, 
+                 converged = res$convergence[1], boundary = boundary, loglik = -res$value.objfn[1], 
+                 nn.design = x)
+  if (control$coeftrace) result$coefhist <- coefhist
+  result
 }

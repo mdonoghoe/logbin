@@ -10,7 +10,8 @@ but may be used to construct a
 \code{control} argument to that function.
 }
 \usage{
-logbin.control(bound.tol = 1e-06, epsilon = 1e-08, maxit = 10000, trace = 0)
+logbin.control(bound.tol = 1e-06, epsilon = 1e-08, maxit = 10000, trace = 0,
+               coeftrace = FALSE)
 }
 \arguments{
   \item{bound.tol}{
@@ -33,14 +34,20 @@ logbin.control(bound.tol = 1e-06, epsilon = 1e-08, maxit = 10000, trace = 0)
   This should be smaller than \code{bound.tol}.
 }
   \item{maxit}{
-	integer giving the maximum number of EM
-  algorithm iterations for a given parameterisation.
+	integer giving the maximum number of iterations 
+	(for a given parameterisation in the case of the
+	CEM algorithm).
 }
   \item{trace}{
 	number indicating level of output that
   should be produced. >= 1 gives output for each
   parameterisation, >= 2 gives output at each iteration.
 }
+  \item{coeftrace}{
+  logical indicating whether the coefficient history
+  should be included as a component of the returned
+  value (for \code{method = "em"} and \code{method = "cem"}).
+  }
 }
 \details{
 This is used similarly to \code{\link{glm.control}}. The

@@ -11,6 +11,8 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
   best.param <- NULL
   allconv <- TRUE
   totaliter <- 0
+  
+  if (control$coeftrace) np.coefhist <- coefhist <- list()
     
   if(length(allref$allref) == 0) {
     if(control$trace > 0) cat("logbin parameterisation 1/1\n")
@@ -21,7 +23,8 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
     best.param <- 0
     allconv <- best.model$converged
     totaliter <- best.model$iter
-    if(control$trace > 0 & control$trace <= 1)
+    if (control$coeftrace) np.coefhist[[1]] <- best.model$coefhist
+    if (control$trace > 0 & control$trace <= 1)
       cat("Deviance =", best.model$deviance, "Iterations -", best.model$iter, "\n")
   } else {
     design.all <- expand.grid(lapply(design.numref, seq_len))
@@ -32,8 +35,9 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
       X <- logbin.design(allref$terms, allref$data, "cem", allref$allref, allref$monotonic, design.all[param,])
       thismodel <- nplbin(Y, X, offset, if (param == 1) allref$start.new else NULL,
                           control2, accelerate, control.accelerate = list(control.method))
-      if(!thismodel$converged) allconv <- FALSE
-      if(control$trace > 0 & control$trace <= 1)
+      if (!thismodel$converged) allconv <- FALSE
+      if (control$coeftrace) np.coefhist[[param]] <- thismodel$coefhist
+      if (control$trace > 0 & control$trace <= 1)
         cat("Deviance =", thismodel$deviance, "Iterations -", thismodel$iter, "\n")
       totaliter <- totaliter + thismodel$iter
       if(thismodel$loglik > best.loglik) {
@@ -48,6 +52,7 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
   if (length(allref$allref) == 0) {
     np.coefs <- coefs <- coefs.boundary <- best.model$coefficients
     nn.design <- design <- model.matrix(allref$terms, allref$data)
+    if (control$coeftrace) coefhist[[1]] <- np.coefhist
   } else {
     np.coefs <- best.model$coefficients
     nn.design <- logbin.design(allref$terms, allref$data, "cem", allref$allref, allref$monotonic, design.all[best.param,])
@@ -55,6 +60,15 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
     coefs <- reparam$coefs
     design <- reparam$design
     coefs.boundary <- reparam$coefs.boundary
+    if (control$coeftrace) {
+      for (param in seq_len(length(np.coefhist))) {
+        reparamhist <- apply(np.coefhist[[param]], 1, function(x)
+          logbin.reparameterise(x, mt, mf, "cem", allref$allref, allref$monotonic, design.all[param,])$coefs)
+        coefhist[[param]] <- t(reparamhist)
+        colnames(coefhist[[param]]) <- names(coefs)
+        rownames(coefhist[[param]]) <- rownames(np.coefhist[[param]])
+      }
+    }
   }
   
   boundary <- any(coefs.boundary > -control$bound.tol)
@@ -87,5 +101,6 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
               y = best.model$y, x = design, converged = best.model$converged,
               boundary = boundary, np.coefficients = np.coefs,
               nn.x = nn.design)
+  if (control$coeftrace) fit$coefhist <- coefhist
   fit
 }

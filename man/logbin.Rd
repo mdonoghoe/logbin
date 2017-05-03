@@ -226,7 +226,10 @@ As well as:
 with the non-positive parameterisation corresponding to the
 MLE.} 
 \item{nn.x}{non-negative model matrix associated with
-\code{np.coefficients}.}  
+\code{np.coefficients}.}
+\item{coefhist}{(if \code{control$coeftrace = TRUE}), a matrix or
+list of matrices containing the coefficient estimates after each
+EM iteration.}
 }
 \references{
 Hurvich, C. M., J. S. Simonoff and C.-L. Tsai (1998). Smoothing parameter 

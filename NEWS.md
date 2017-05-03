@@ -1,3 +1,7 @@
+# logbin 2.0.3
+
+* Added `coeftrace` argument to `logbin.control`, such that coefficient history can be obtained for `method = "em"` and `method = "cem"`.
+
 # logbin 2.0.2
 
 * Changed `logbin.ab` so that `outer.iterations` can be set by `control$maxit` in the call to `logbin`, and `maxit` (inner iterations) is set by `control.method$maxit`.
