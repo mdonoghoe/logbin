@@ -81,5 +81,6 @@ devtools::install_github("mdonoghoe/logbin")
 ```
 
 ## References
-* Donoghoe, M. W. and I. C. Marschner (2015). Flexible regression models for rate differences, risk differences and relative risks. _International Journal of Biostatistics_ __11__(1): 91-108.
-* Marschner, I. C. and A. C. Gillett (2012). Relative risk regression: reliable and flexible methods for log-binomial models. _Biostatistics_ __13__(1): 179-192.
+* Donoghoe, M. W. and I. C. Marschner (2015). Flexible regression models for rate differences, risk differences and relative risks. _International Journal of Biostatistics_ __11__(1): 91--108.
+* Donoghoe, M. W. and I. C. Marschner (2018). logbin: An R package for relative risk regression using the log-binomial model. _Journal of Statistical Software_ __86__(9): 1--22.
+* Marschner, I. C. and A. C. Gillett (2012). Relative risk regression: reliable and flexible methods for log-binomial models. _Biostatistics_ __13__(1): 179--192.

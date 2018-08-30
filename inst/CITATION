@@ -1,4 +1,22 @@
-citHeader("To cite logbin in publications use 2012 for the stable EM algorithm, 2015 for semi-parametric regression")
+citHeader("To cite logbin in publications use 2018; specific details of algorithms are in 2012 for the stable EM algorithm, 2015 for semi-parametric regression")
+
+citEntry(
+  entry = "Article",
+  title = "{logbin}: An {R} package for relative risk regression using the log-binomial model",
+  journal = "Journal of Statistical Software",
+  volume = "86",
+  part = "9",
+  pages = "1--22",
+  year = "2018",
+  author = personList(person(given = c("Mark", "W."),
+                             family = "Donoghoe",
+                             email = "markdonoghoe@gmail.com"),
+                      person(given = c("Ian", "C."),
+                             family = "Marschner",
+                             email = "Ian.Marschner@mq.edu.au")),
+  doi = "10.18637/jss.v086.i09",
+  textVersion = "Donoghoe, M. W. and I. C. Marschner (2018). logbin: An R package for relative risk regression using the log-binomial model. Journal of Statistical Software 86(9): 1-22"
+)
 
 citEntry(
   entry = "Article",
@@ -6,7 +24,7 @@ citEntry(
   journal = "Biostatistics",
   volume = "13",
   part = "1",
-  pages = "179-192",
+  pages = "179--192",
   year = "2012",
   author = personList(person("Ian C.", "Marschner"), person("Alexandra C.", "Gillett")),
   doi = "10.1093/biostatistics/kxr030",
@@ -19,7 +37,7 @@ citEntry(
   journal = "International Journal of Biostatistics",
   volume = "11",
   part = "1",
-  pages = "91-108",
+  pages = "91--108",
   year = "2015",
   author = personList(person("Mark W.", "Donoghoe"), person("Ian C.", "Marschner")),
   doi = "10.1515/ijb-2014-0044",

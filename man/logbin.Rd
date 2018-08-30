@@ -237,6 +237,10 @@ selection in non-parametric regression using an improved Akaike
 information criterion. \emph{Journal of the Royal Statistical Society: Series B 
 (Statistical Methodology)} 60(2): 271--293.
 
+Donoghoe, M. W. and I. C. Marschner (2018). logbin: An R package for relative risk
+regression using the log-binomial model. \emph{Journal of Statistical Software} 
+86(9): 1--22.
+
 Marschner, I. C. (2014). Combinatorial EM algorithms.
 \emph{Statistics and Computing} 24(6): 921--940.
 

@@ -1,3 +1,7 @@
+# logbin 2.0.4
+
+* Added citation to _Journal of Statistical Software_ article.
+
 # logbin 2.0.3
 
 * Added `coeftrace` argument to `logbin.control`, such that coefficient history can be obtained for `method = "em"` and `method = "cem"`.
