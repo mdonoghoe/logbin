@@ -62,7 +62,7 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
                       length(offset), NROW(Y)), domain = NA)
     }
     
-    Y <- model.response(mf, "numeric")
+    Y <- model.response(mf, "any")
     if(length(dim(Y)) == 1L) {
       nm <- rownames(Y)
       dim(Y) <- NULL
