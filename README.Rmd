@@ -15,7 +15,7 @@ require(logbin, quietly = TRUE)
 
 # logbin
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/logbin)](https://cran.r-project.org/package=logbin)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/logbin)](https://cran.r-project.org/package=logbin)
 
 `logbin` provides methods for performing relative risk regression by fitting log-link GLMs and GAMs to binomial data. As well as providing a consistent interface to use the usual Fisher scoring algorithm (via `glm` or `glm2`) and an adaptive barrier approach (via `constrOptim`), it implements EM-type algorithms that have more stable convergence properties than other methods.
 

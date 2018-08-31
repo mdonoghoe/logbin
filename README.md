@@ -1,13 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-logbin
-======
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/logbin)](https://cran.r-project.org/package=logbin)
+# logbin
 
-`logbin` provides methods for performing relative risk regression by fitting log-link GLMs and GAMs to binomial data. As well as providing a consistent interface to use the usual Fisher scoring algorithm (via `glm` or `glm2`) and an adaptive barrier approach (via `constrOptim`), it implements EM-type algorithms that have more stable convergence properties than other methods.
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/logbin)](https://cran.r-project.org/package=logbin)
 
-An example of periodic non-convergence using `glm` (run with `trace = TRUE` to see deviance at each iteration):
+`logbin` provides methods for performing relative risk regression by
+fitting log-link GLMs and GAMs to binomial data. As well as providing a
+consistent interface to use the usual Fisher scoring algorithm (via
+`glm` or `glm2`) and an adaptive barrier approach (via `constrOptim`),
+it implements EM-type algorithms that have more stable convergence
+properties than other methods.
+
+An example of periodic non-convergence using `glm` (run with `trace =
+TRUE` to see deviance at each iteration):
 
 ``` r
 require(glm2, quietly = TRUE)
@@ -21,19 +27,23 @@ t.glm <- system.time(
 )
 ```
 
-The combinatorial EM method (Marschner and Gillett, 2012) provides stable convergence:
+The combinatorial EM method (Marschner and Gillett, 2012) provides
+stable convergence:
 
 ``` r
 t.cem <- system.time(fit.cem <- update(fit.glm, method = "cem"))
 ```
 
-...but it can take a while. Using an overparameterised EM approach removes the need to run 3<sup>4</sup> = 81 separate EM algorithms:
+…but it can take a while. Using an overparameterised EM approach removes
+the need to run \(3^4 = 81\) separate EM algorithms:
 
 ``` r
 t.em <- system.time(fit.em <- update(fit.glm, method = "em"))
 ```
 
-...while generic EM acceleration algorithms (from the `turboEM` package) can speed this up further still:
+…while generic EM acceleration algorithms (from the `turboEM` package)
+can speed this up further
+still:
 
 ``` r
 t.cem.acc <- system.time(fit.cem.acc <- update(fit.cem, accelerate = "squarem"))
@@ -43,18 +53,21 @@ t.em.acc <- system.time(fit.em.acc <- update(fit.em, accelerate = "squarem"))
 Comparison of results:
 
     #>         converged    logLik iterations   time
-    #> glm         FALSE -186.7366      10000   1.79
-    #> cem          TRUE -179.9016     445161 100.11
-    #> em           TRUE -179.9016       7403   1.68
-    #> cem.acc      TRUE -179.9016       7545   8.45
-    #> em.acc       TRUE -179.9016         90   0.11
+    #> glm         FALSE -186.7366      10000   2.08
+    #> cem          TRUE -179.9016     445161 102.41
+    #> em           TRUE -179.9016       7403   1.62
+    #> cem.acc      TRUE -179.9016       7545  10.38
+    #> em.acc       TRUE -179.9016         90   0.24
 
-An adaptive barrier algorithm can also be applied using `method = "ab"`, with user-specified options via `control.method`: see `help(logbin)` for more details.
+An adaptive barrier algorithm can also be applied using `method = "ab"`,
+with user-specified options via `control.method`: see `help(logbin)` for
+more details.
 
-Semi-parametric regression using B-splines (Donoghoe and Marschner, 2015) can be incorporated by using the `logbin.smooth` function. See `example(logbin.smooth)` for a simple example.
+Semi-parametric regression using B-splines (Donoghoe and Marschner,
+2015) can be incorporated by using the `logbin.smooth` function. See
+`example(logbin.smooth)` for a simple example.
 
-Installation
-------------
+## Installation
 
 Get the released version from CRAN:
 
@@ -69,9 +82,14 @@ Or the development version from github:
 devtools::install_github("mdonoghoe/logbin")
 ```
 
-References
-----------
+## References
 
--   Donoghoe, M. W. and I. C. Marschner (2015). Flexible regression models for rate differences, risk differences and relative risks. *International Journal of Biostatistics* **11**(1): 91--108.
--   Donoghoe, M. W. and I. C. Marschner (2018). logbin: An R package for relative risk regression using the log-binomial model. *Journal of Statistical Software* **86**(9): 1--22.
--   Marschner, I. C. and A. C. Gillett (2012). Relative risk regression: reliable and flexible methods for log-binomial models. *Biostatistics* **13**(1): 179--192.
+  - Donoghoe, M. W. and I. C. Marschner (2015). Flexible regression
+    models for rate differences, risk differences and relative risks.
+    *International Journal of Biostatistics* **11**(1): 91–108.
+  - Donoghoe, M. W. and I. C. Marschner (2018). logbin: An R package for
+    relative risk regression using the log-binomial model. *Journal of
+    Statistical Software* **86**(9): 1–22.
+  - Marschner, I. C. and A. C. Gillett (2012). Relative risk regression:
+    reliable and flexible methods for log-binomial models.
+    *Biostatistics* **13**(1): 179–192.
