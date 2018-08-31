@@ -68,7 +68,7 @@ Mark W. Donoghoe \email{markdonoghoe@gmail.com}
 \seealso{
 \code{\link{logbin.smooth}}
 
-\code{\link[mgcv]{s}} performs a similar function in the \code{\link[mgcv]{mgcv}} package.
+\code{\link[mgcv]{s}} performs a similar function in the \code{\link[mgcv:mgcv-package]{mgcv}} package.
 }
 \examples{
 ## See example(logbin.smooth) for an example of specifying smooths in model
