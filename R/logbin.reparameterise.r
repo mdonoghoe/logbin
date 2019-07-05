@@ -57,12 +57,12 @@ logbin.reparameterise <- function(np.coefs, terms, data, type = c("cem","em"), a
       ref.orig <- varref
       ref.new <- lev[1L]
       if (type == "cem") {
+        thiscoef <- coefs.model[(coef.count.o + 1L):(coef.count.o + nlev - 1L)]
         if (ref.orig != ref.new) {
-          thiscoef <- coefs.model[(coef.count.o + 1L):(coef.count.o + nlev - 1L)]
           thiscoef.new <- append(thiscoef, 0, after = which(lev == ref.orig) - 1L)[-1L] - thiscoef[1L]
           coefs.int.reparam <- coefs.int.reparam + thiscoef[1L]
           coefs.model.reparam[(coef.count.n + 1L):(coef.count.n + nlev - 1L)] <- thiscoef.new
-        }
+        } else coefs.model.reparam[(coef.count.n + 1L):(coef.count.n + nlev - 1L)] <- thiscoef
       } else {
         thiscoef <- coefs.model[(coef.count.o + 1L):(coef.count.o + nlev)]
         thiscoef.new <- thiscoef[-1L] - thiscoef[1L]

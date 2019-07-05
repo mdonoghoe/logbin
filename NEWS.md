@@ -1,3 +1,7 @@
+# logbin 2.0.4.9000
+
+* Fixed reparameterisation for factor variables in method = "cem" (@jakobschoepe, #3)
+
 # logbin 2.0.4
 
 * Added citation to _Journal of Statistical Software_ article.
