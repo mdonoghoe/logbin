@@ -18,8 +18,8 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
     
   if(length(reparam$Vmat) == 0) {
     if(control$trace > 0) cat("logbin parameterisation 1/1\n")
-    X <- model.matrix(allref$terms, allref$data)
-    best.model <- nplbin(Y, X, offset, allref$start.new, control2,
+    X <- model.matrix(mt, mf)
+    best.model <- nplbin(Y, X, offset, start, control2,
                          accelerate, control.accelerate = list(control.method))
     best.loglik <- best.model$loglik
     best.param <- 0
