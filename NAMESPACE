@@ -1,6 +1,8 @@
 import(splines)
 import(glm2)
-import(turboEM)
+importFrom("itertools2", "iproduct")
+importClassesFrom(Matrix)
+importMethodsFrom(Matrix)
 importFrom("grDevices", "dev.new", "rainbow")
 importFrom("graphics", "abline", "lines", "plot")
 importFrom("stats", ".MFclass", ".checkMFClasses", ".getXlevels",

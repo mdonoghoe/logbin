@@ -4,47 +4,47 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
   accelerate = match.arg(accelerate)
   control2 <- control
   control2$trace <- (control$trace > 1)
-
-  allref <- logbin.allref(mt, mf, "em", mono, start)
-  design.numref <- sapply(allref$allref, length)
   
-  if(control$trace > 0) cat("logbin parameterisation 1/1\n")
-  if (length(allref$allref) == 0)
-    X <- model.matrix(allref$terms, allref$data)
-  else {
-    design.all <- expand.grid(lapply(design.numref, seq_len))
-    X <- logbin.design(allref$terms, allref$data, "em", allref$allref, allref$monotonic, design.all[1,])
+  reparam <- logbin.reparam(mt, mf, "em", mono)
+  if (!is.null(start)) {
+    start.expand <- logbin.expand(start, reparam, "em")
   }
   
-  thismodel <- nplbin(Y, X, offset, allref$start.new, control2, accelerate, control.accelerate = list(control.method))
+  if(control$trace > 0) cat("logbin parameterisation 1/1\n")
+  if (length(reparam$Vmat) == 0)
+    X <- model.matrix(mt, mf)
+  else {
+    des <- logbin.design2(mt, mf, "em", reparam)
+    X <- des$X.reparam
+  }
+  
+  thismodel <- nplbin(Y, X, offset, if (!is.null(start)) start.expand$coefs.exp else NULL, 
+                      control2, accelerate, control.accelerate = list(control.method))
   
   if(control$trace > 0 & control$trace <= 1)
     cat("Deviance =", thismodel$deviance, "Iterations -", thismodel$iter, "\n")
   
-  if (length(allref$allref) == 0) {
+  if (length(reparam$Vmat) == 0) {
     np.coefs <- coefs <- coefs.boundary <- thismodel$coefficients
     nn.design <- design <- X
     if (control$coeftrace) coefhist <- thismodel$coefhist
   } else {
     np.coefs <- thismodel$coefficients
     nn.design <- X
-    reparam <- logbin.reparameterise(np.coefs, mt, mf, "em", allref$allref, allref$monotonic, design.all[1,])
-    coefs <- reparam$coefs
-    design <- reparam$design
-    coefs.boundary <- reparam$coefs.boundary
+    #reparam <- logbin.reparameterise(np.coefs, mt, mf, "em", allref$allref, allref$monotonic, design.all[1,])
+    coefs <- as.vector(logbin.reduce(np.coefs, des$A))
+    names(coefs) <- gsub("`", "", colnames(des$X.orig))
+    design <- des$X.orig
+    coefs.boundary <- np.coefs[logbin.expand(coefs, reparam, "em")$which.boundary]
     if (control$coeftrace) {
-      reparamhist <- apply(thismodel$coefhist, 1, function(x) logbin.reparameterise(x, mt, mf, "em", allref$allref,
-                                                                                    allref$monotonic, design.all[1,])$coefs)
-      coefhist <- t(reparamhist)
-      colnames(coefhist) <- names(coefs)
-      rownames(coefhist) <- rownames(thismodel$coefhist)
+      coefhist <- coefhist.reduce(thismodel$coefhist, des$A, names(coefs))
     }
   }
   
   nvars <- length(coefs)
   vardiff <- length(np.coefs) - nvars
   aic.c <- thismodel$aic - 2 * vardiff + 2 * nvars * (nvars + 1) / (NROW(Y) - nvars - 1)
-  
+
   boundary <- any(coefs.boundary > -control$bound.tol)
   
   if (warn) {

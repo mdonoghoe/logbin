@@ -7,7 +7,7 @@ Authors@R: c(person("Mark W.", "Donoghoe", email = "markdonoghoe@gmail.com", rol
              person("Ian C.", "Marschner", rol = "ths"),
              person("Alexandra C.", "Gillett", rol = "ctb", comment = "wrote an initial version of the nplbin function"))
 Depends: R (>= 3.0.1)
-Imports: splines, glm2, turboEM
+Imports: splines, glm2, turboEM, Matrix, itertools2
 License: GPL (>= 2)
 LazyData: true
 URL: https://github.com/mdonoghoe/logbin

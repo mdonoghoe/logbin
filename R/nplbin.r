@@ -43,7 +43,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
       stop(gettextf("length of 'start' should equal %d and correspond to initial coefs for %s",
                     nvars, paste(deparse(xnames), collapse = ", ")), domain = NA)
     else if (any(start >= -control$bound.tol))
-      stop("'start' is on our outside the boundary of the parameter space (consider 'bound.tol')", domain = NA)
+      stop("'start' is on or outside the boundary of the parameter space (consider 'bound.tol')", domain = NA)
     else start
   } else {
     simple <- log(mean(y)) / colMeans(x) - 2 * control$bound.tol
