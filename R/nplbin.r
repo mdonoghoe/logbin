@@ -24,6 +24,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
   
   fam <- binomial(link = log)
   eval(fam$initialize)
+  if (max(y) == 0) stop("cannot fit a log-binomial model if all y==0")
   
   mu.eta <- fam$mu.eta
   linkinv <- fam$linkinv
