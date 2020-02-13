@@ -65,6 +65,9 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
     pnew.scale <- log(colSums(estep * x1) / colSums(n * x1))
     pnew <- pnew.scale * x.s
     pnew[pnew >= 0] <- -bound.tol / 2
+    # Sometimes estimates go to negative infinity (so exp(p) = 0). Just reduce them by a bit.
+    pnew[is.infinite(pnew)] <- pmin(p[is.infinite(pnew)] - .Machine$double.neg.eps, 
+                                    log(.Machine$double.neg.eps))
     return(pnew)
   }
   
