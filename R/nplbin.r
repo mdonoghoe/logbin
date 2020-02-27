@@ -1,6 +1,6 @@
 utils::globalVariables("tol")
 
-nplbin <- function(y, x, offset, start, control = logbin.control(), 
+nplbin <- function(y, x, offset, start, Amat = diag(ncol(x)), control = logbin.control(), 
                    accelerate = c("em","squarem","pem","qn"), control.accelerate = list(list())) {
   control <- do.call("logbin.control", control)
   accelerate <- match.arg(accelerate)

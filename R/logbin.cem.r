@@ -19,8 +19,8 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
   if(length(reparam$Vmat) == 0) {
     if(control$trace > 0) cat("logbin parameterisation 1/1\n")
     X <- model.matrix(mt, mf)
-    best.model <- nplbin(Y, X, offset, start, control2,
-                         accelerate, control.accelerate = list(control.method))
+    best.model <- nplbin(Y, X, offset, start, control = control2,
+                         accelerate = accelerate, control.accelerate = list(control.method))
     best.loglik <- best.model$loglik
     best.param <- 0
     allconv <- best.model$converged
@@ -50,7 +50,8 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
       des <- logbin.design2(mt, mf, "cem", reparam, unlist(param))
       X <- des$X.reparam
       thismodel <- nplbin(Y, X, offset, if(!is.null(start) && paramcount == 1L) start.expand$coefs.exp else NULL,
-                          control2, accelerate, control.accelerate = list(control.method))
+                          control = control2, accelerate = accelerate, 
+                          control.accelerate = list(control.method))
       if (!thismodel$converged) allconv <- FALSE
       if (control$coeftrace) {
         np.coefhist[[paramcount]] <- thismodel$coefhist
