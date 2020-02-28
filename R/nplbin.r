@@ -1,5 +1,3 @@
-utils::globalVariables("tol")
-
 nplbin <- function(y, x, offset, start, Amat = diag(ncol(x)), control = logbin.control(), 
                    accelerate = c("em","squarem","pem","qn"), control.accelerate = list(list())) {
   control <- do.call("logbin.control", control)
@@ -85,7 +83,7 @@ nplbin <- function(y, x, offset, start, Amat = diag(ncol(x)), control = logbin.c
     pnew[p > 0] <- -.Machine$double.eps
   }
   
-  conv.user <- function(old,new) return(conv.test(old, new, tol))
+  conv.user <- conv.test(Amat, control$epsilon)
   
   emargs <- list(par = coefold, fixptfn = fixptfn, objfn = objfn, method = accelerate,
                  pconstr = validparams, project = projfn, y1 = y1, y2 = y2, n = n, x = x, x.s = x.scale,
