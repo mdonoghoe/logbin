@@ -1,5 +1,5 @@
 logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("em","squarem","pem","qn"),
-                      control.method, warn, reduce = TRUE)
+                      control.method, warn)
 {
   accelerate = match.arg(accelerate)
   control2 <- control
@@ -22,8 +22,7 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
   }
   
   thismodel <- nplbin(Y, X, offset, if (!is.null(start)) start.expand$coefs.exp else NULL, 
-                      Amat = if (reduce) Amat else diag(ncol(X)),
-                      control = control2, accelerate = accelerate, 
+                      Amat = Amat, control = control2, accelerate = accelerate, 
                       control.accelerate = list(control.method))
   
   if(control$trace > 0 & control$trace <= 1)

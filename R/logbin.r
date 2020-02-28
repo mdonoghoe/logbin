@@ -1,7 +1,7 @@
 logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL, offset,
             control = list(...), model = TRUE, method = c("cem", "em", "glm", "glm2", "ab"),
             accelerate = c("em", "squarem", "pem", "qn"), control.method = list(), 
-            warn = TRUE, reduce = TRUE, ...) {
+            warn = TRUE, ...) {
   call <- match.call()
   method <- match.arg(method)
   accelerate <- match.arg(accelerate)
@@ -73,7 +73,6 @@ logbin <- function (formula, mono = NULL, data, subset, na.action, start = NULL,
     logbin.args <- list(mt = mt, mf = mf, Y = Y, offset = offset, mono = mono,
                         start = start, control = control)
     if (method %in% c("cem", "em")) logbin.args$accelerate <- accelerate
-    if (method == "em") logbin.args$reduce <- reduce
     logbin.args <- c(logbin.args, list(control.method = control.method, warn = warn))
     res <- do.call(logbin.method, logbin.args)
     mres <- match(outnames, names(res), 0L)
