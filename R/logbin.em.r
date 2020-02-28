@@ -11,15 +11,19 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
   }
   
   if(control$trace > 0) cat("logbin parameterisation 1/1\n")
-  if (length(reparam$Vmat) == 0)
+  if (length(reparam$Vmat) == 0) {
     X <- model.matrix(mt, mf)
+    Amat <- diag(ncol(X))
+  }
   else {
     des <- logbin.design2(mt, mf, "em", reparam)
     X <- des$X.reparam
+    Amat <- des$A
   }
   
   thismodel <- nplbin(Y, X, offset, if (!is.null(start)) start.expand$coefs.exp else NULL, 
-                      control2, accelerate, control.accelerate = list(control.method))
+                      Amat = Amat, control = control2, accelerate = accelerate, 
+                      control.accelerate = list(control.method))
   
   if(control$trace > 0 & control$trace <= 1)
     cat("Deviance =", thismodel$deviance, "Iterations -", thismodel$iter, "\n")
