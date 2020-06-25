@@ -1,6 +1,7 @@
 # logbin 2.0.4.9000
 
 * Fixed reparameterisation for factor variables in method = "cem" (@jakobschoepe, #3)
+* Fixed error in `logbin` if offset provided
 
 # logbin 2.0.4
 
