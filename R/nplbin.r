@@ -98,21 +98,23 @@ nplbin <- function(y, x, offset, start, Amat = diag(ncol(x)), control = logbin.c
     if (res$fail[1]) stop(res$errors[1])
     iter <- res$itr[1]
   } else {
-    coefhist <- coefold
+    coefhist <- matrix(NA_real_, nrow = control$maxit + 1, ncol = length(coefold))
+    coefhist[1,] <- coefold
     iter <- 0
     converged <- FALSE
     
     emargs$control.run$maxiter <- 1
     
     while(!converged && iter < control$maxit) {
-      emargs$par = coefold
+      emargs$par <- coefold
       res <- do.call(turboEM::turboem, emargs)
       if (res$fail[1]) stop(res$errors[1])
       coefold <- res$pars[1,]
-      coefhist <- rbind(coefhist, as.vector(coefold))
       iter <- iter + 1
+      coefhist[iter + 1, ] <- as.vector(coefold)
       converged <- res$convergence[1]
     }
+    coefhist <- coefhist[seq_len(iter + 1), , drop = FALSE]
     colnames(coefhist) <- xnames
     rownames(coefhist) <- 0:iter
   }
