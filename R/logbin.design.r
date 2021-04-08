@@ -18,6 +18,8 @@ logbin.design2 <- function(terms, data, type = c("cem", "em"), mats, rm = NULL) 
   A1 <- Matrix::.bdiag(Amat.1)
   A <- rbind(cbind(1, A0), cbind(0, A1))
   X.reparam <- cbind(1, X.orig %*% rbind(A0, A1))
+  # Fix up possible numerical issues
+  X.reparam[X.reparam <= .Machine$double.eps] <- 0
   list(X.orig = X.orig, X.reparam = X.reparam, A = A)
 }
 
