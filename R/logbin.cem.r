@@ -147,5 +147,5 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
 
 # This is a function that determines the ordering of the parameter subspaces
 subsporder <- function(npar, start) {
-  ((seq_len(npar) + start - 2L) %% npar) + 1L
+  ((rev(seq_len(npar)) + start - 1L) %% npar) + 1L
 }

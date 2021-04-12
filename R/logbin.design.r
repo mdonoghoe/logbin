@@ -7,10 +7,10 @@ logbin.design2 <- function(terms, data, type = c("cem", "em"), mats, rm = NULL) 
   } else {
     if (length(rm) != length(mats$Amat))
       stop("Length of reference vector is not equal to the number of terms")
-    Amat.0 <- mapply(function(x, y, z) if (z > 1) x[1, -(ncol(x) - y + 1), drop = FALSE] else 
+    Amat.0 <- mapply(function(x, y, z) if (z > 1) x[1, -y, drop = FALSE] else 
                                               x[1, , drop = FALSE], mats$Amat, 
                      rm, mats$nref, SIMPLIFY = FALSE)
-    Amat.1 <- mapply(function(x, y, z) if (z > 1) x[-1, -(ncol(x) - y + 1), drop = FALSE] else
+    Amat.1 <- mapply(function(x, y, z) if (z > 1) x[-1, -y, drop = FALSE] else
                                               x[-1, , drop = FALSE], mats$Amat, 
                      rm, mats$nref, SIMPLIFY = FALSE)
   }

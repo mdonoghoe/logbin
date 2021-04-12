@@ -42,8 +42,7 @@ t.em <- system.time(fit.em <- update(fit.glm, method = "em"))
 ```
 
 …while generic EM acceleration algorithms (from the `turboEM` package)
-can speed this up further
-still:
+can speed this up further still:
 
 ``` r
 t.cem.acc <- system.time(fit.cem.acc <- update(fit.cem, accelerate = "squarem"))
@@ -53,11 +52,11 @@ t.em.acc <- system.time(fit.em.acc <- update(fit.em, accelerate = "squarem"))
 Comparison of results:
 
     #>         converged    logLik iterations   time
-    #> glm         FALSE -186.7366      10000   2.08
-    #> cem          TRUE -179.9016     445161 102.41
-    #> em           TRUE -179.9016       7403   1.62
-    #> cem.acc      TRUE -179.9016       7545  10.38
-    #> em.acc       TRUE -179.9016         90   0.24
+    #> glm         FALSE -186.7366      10000   3.10
+    #> cem          TRUE -179.9016     223196 100.48
+    #> em           TRUE -179.9016       6492   5.46
+    #> cem.acc      TRUE -179.9016       4215   8.33
+    #> em.acc       TRUE -179.9016         81   0.20
 
 An adaptive barrier algorithm can also be applied using `method = "ab"`,
 with user-specified options via `control.method`: see `help(logbin)` for
