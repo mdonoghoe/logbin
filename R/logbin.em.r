@@ -16,7 +16,7 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
     Amat <- diag(ncol(X))
   }
   else {
-    des <- logbin.design2(mt, mf, "em", reparam)
+    des <- logbin.design(mt, mf, "em", reparam)
     X <- des$X.reparam
     Amat <- des$A
   }
@@ -35,7 +35,6 @@ logbin.em <- function(mt, mf, Y, offset, mono, start, control, accelerate = c("e
   } else {
     np.coefs <- thismodel$coefficients
     nn.design <- X
-    #reparam <- logbin.reparameterise(np.coefs, mt, mf, "em", allref$allref, allref$monotonic, design.all[1,])
     coefs <- as.vector(logbin.reduce(np.coefs, des$A))
     names(coefs) <- gsub("`", "", colnames(des$X.orig))
     design <- des$X.orig

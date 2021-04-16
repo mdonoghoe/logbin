@@ -47,7 +47,7 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
       paramcount <- paramcount + 1L
       if (control$trace > 0) cat("logbin parameterisation ", paramcount, "/",
                                  n.param, "\n", sep = "")
-      des <- logbin.design2(mt, mf, "cem", reparam, unlist(param))
+      des <- logbin.design(mt, mf, "cem", reparam, unlist(param))
       X <- des$X.reparam
       thismodel <- nplbin(Y, X, offset, if(!is.null(start) && paramcount == 1L) start.expand$coefs.exp else NULL,
                           control = control2, accelerate = accelerate, 
@@ -67,29 +67,6 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
         if(thismodel$converged & !thismodel$boundary) break
       }
     }
-    
-    #n.refvecs <- do.call("c", reparam$nref)
-    #design.all <- expand.grid(lapply(n.refvecs, seq_len))
-    #nparam <- nrow(design.all)
-    
-    #for(param in seq_len(nparam)) {
-    #   if(control$trace > 0) cat("logbin parameterisation ",param,"/",nparam,"\n",sep="")
-    #   des <- logbin.design2(mt, mf, "cem", reparam, design.all[param,])
-    #   X <- des$X.reparam
-    #   thismodel <- nplbin(Y, X, offset, NULL,
-    #                       control2, accelerate, control.accelerate = list(control.method))
-    #   if (!thismodel$converged) allconv <- FALSE
-    #   if (control$coeftrace) np.coefhist[[param]] <- thismodel$coefhist
-    #   if (control$trace > 0 & control$trace <= 1)
-    #     cat("Deviance =", thismodel$deviance, "Iterations -", thismodel$iter, "\n")
-    #   totaliter <- totaliter + thismodel$iter
-    #   if(thismodel$loglik > best.loglik) {
-    #     best.model <- thismodel
-    #     best.loglik <- thismodel$loglik
-    #     best.param <- param
-    #     if(thismodel$converged & !thismodel$boundary) break
-    #   }
-    # }
   }
     
   if (length(reparam$Vmat) == 0) {
@@ -98,7 +75,7 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
     if (control$coeftrace) coefhist[[1]] <- np.coefhist
   } else {
     np.coefs <- best.model$coefficients
-    best.design <- logbin.design2(mt, mf, "cem", reparam, best.param)
+    best.design <- logbin.design(mt, mf, "cem", reparam, best.param)
     nn.design <- best.design$X.reparam
     coefs <- as.vector(logbin.reduce(np.coefs, best.design$A))
     names(coefs) <- gsub("`", "", colnames(best.design$X.orig))
