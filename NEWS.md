@@ -3,6 +3,7 @@
 * Fixed reparameterisation for factor variables in method = "cem" (@jakobschoepe, #3)
 * Implemented a more efficient approach to parameter expansion (using the transformation matrix).
 * When using the parameter expansion approach, check convergence of the reduced parameter vector. As an indirect result, the `conv.test` function is no longer exported.
+* Fixed error in `logbin` if offset provided
 
 # logbin 2.0.4
 
