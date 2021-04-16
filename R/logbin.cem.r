@@ -2,9 +2,11 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
                        control.method, warn) {
   control2 <- control
   control2$trace <- (control$trace > 1)
-
-  allref <- logbin.allref(mt, mf, "cem", mono, start)
-  design.numref <- sapply(allref$allref, length)
+  
+  reparam <- logbin.reparam(mt, mf, "cem", mono)
+  if (!is.null(start)) {
+    start.expand <- logbin.expand(start, reparam, "cem")
+  }
   
   best.model <- NULL
   best.loglik <- -Inf
@@ -12,13 +14,13 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
   allconv <- TRUE
   totaliter <- 0
   
-  if (control$coeftrace) np.coefhist <- coefhist <- list()
+  if (control$coeftrace) Amat <- np.coefhist <- coefhist <- list()
     
-  if(length(allref$allref) == 0) {
+  if(length(reparam$Vmat) == 0) {
     if(control$trace > 0) cat("logbin parameterisation 1/1\n")
-    X <- model.matrix(allref$terms, allref$data)
-    best.model <- nplbin(Y, X, offset, allref$start.new, control2,
-                         accelerate, control.accelerate = list(control.method))
+    X <- model.matrix(mt, mf)
+    best.model <- nplbin(Y, X, offset, start, control = control2,
+                         accelerate = accelerate, control.accelerate = list(control.method))
     best.loglik <- best.model$loglik
     best.param <- 0
     allconv <- best.model$converged
@@ -27,47 +29,62 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
     if (control$trace > 0 & control$trace <= 1)
       cat("Deviance =", best.model$deviance, "Iterations -", best.model$iter, "\n")
   } else {
-    design.all <- expand.grid(lapply(design.numref, seq_len))
-    nparam <- nrow(design.all)
-    
-    for(param in seq_len(nparam)) {
-      if(control$trace > 0) cat("logbin parameterisation ",param,"/",nparam,"\n",sep="")
-      X <- logbin.design(allref$terms, allref$data, "cem", allref$allref, allref$monotonic, design.all[param,])
-      thismodel <- nplbin(Y, X, offset, if (param == 1) allref$start.new else NULL,
-                          control2, accelerate, control.accelerate = list(control.method))
+    n.refvecs <- do.call("c", reparam$nref)
+    n.param <- prod(n.refvecs)
+    if (n.param > .Machine$integer.max)
+      stop(paste0("The number of parameter subspaces is larger than R can handle ",
+                  "(see .Machine$integer.max). Make some terms monotonic or use ",
+                  "method = \"em\""))
+    if (!is.null(start)) startrefs <- do.call("c", start.expand$vstar.id)
+    else startrefs <- rep(1L, length(n.refvecs))
+    designs.it <- do.call("iproduct", 
+                          mapply(subsporder, npar = n.refvecs, 
+                                 start = startrefs, SIMPLIFY = FALSE))
+    paramcount <- 0L
+    while (TRUE) {
+      param <- try(iterators::nextElem(designs.it), silent = TRUE)
+      if (inherits(param, "try-error") && param == "Error : StopIteration\n") break
+      paramcount <- paramcount + 1L
+      if (control$trace > 0) cat("logbin parameterisation ", paramcount, "/",
+                                 n.param, "\n", sep = "")
+      des <- logbin.design(mt, mf, "cem", reparam, unlist(param))
+      X <- des$X.reparam
+      thismodel <- nplbin(Y, X, offset, if(!is.null(start) && paramcount == 1L) start.expand$coefs.exp else NULL,
+                          control = control2, accelerate = accelerate, 
+                          control.accelerate = list(control.method))
       if (!thismodel$converged) allconv <- FALSE
-      if (control$coeftrace) np.coefhist[[param]] <- thismodel$coefhist
+      if (control$coeftrace) {
+        np.coefhist[[paramcount]] <- thismodel$coefhist
+        Amat[[paramcount]] <- des$A
+      }
       if (control$trace > 0 & control$trace <= 1)
         cat("Deviance =", thismodel$deviance, "Iterations -", thismodel$iter, "\n")
       totaliter <- totaliter + thismodel$iter
       if(thismodel$loglik > best.loglik) {
         best.model <- thismodel
         best.loglik <- thismodel$loglik
-        best.param <- param
+        best.param <- unlist(param)
         if(thismodel$converged & !thismodel$boundary) break
       }
     }
   }
     
-  if (length(allref$allref) == 0) {
+  if (length(reparam$Vmat) == 0) {
     np.coefs <- coefs <- coefs.boundary <- best.model$coefficients
-    nn.design <- design <- model.matrix(allref$terms, allref$data)
+    nn.design <- design <- X
     if (control$coeftrace) coefhist[[1]] <- np.coefhist
   } else {
     np.coefs <- best.model$coefficients
-    nn.design <- logbin.design(allref$terms, allref$data, "cem", allref$allref, allref$monotonic, design.all[best.param,])
-    reparam <- logbin.reparameterise(np.coefs, mt, mf, "cem", allref$allref, allref$monotonic, design.all[best.param,])
-    coefs <- reparam$coefs
-    design <- reparam$design
-    coefs.boundary <- reparam$coefs.boundary
+    best.design <- logbin.design(mt, mf, "cem", reparam, best.param)
+    nn.design <- best.design$X.reparam
+    coefs <- as.vector(logbin.reduce(np.coefs, best.design$A))
+    names(coefs) <- gsub("`", "", colnames(best.design$X.orig))
+    design <- best.design$X.orig
+    coefs.boundary <- np.coefs[logbin.expand(coefs, reparam, "cem")$which.boundary]
     if (control$coeftrace) {
-      for (param in seq_len(length(np.coefhist))) {
-        reparamhist <- apply(np.coefhist[[param]], 1, function(x)
-          logbin.reparameterise(x, mt, mf, "cem", allref$allref, allref$monotonic, design.all[param,])$coefs)
-        coefhist[[param]] <- t(reparamhist)
-        colnames(coefhist[[param]]) <- names(coefs)
-        rownames(coefhist[[param]]) <- rownames(np.coefhist[[param]])
-      }
+      coefhist <- mapply(coefhist.reduce, np.coefhist = np.coefhist, Amat = Amat, 
+                         MoreArgs = list(cnames = names(coefs)),
+                         SIMPLIFY = FALSE)
     }
   }
   
@@ -103,4 +120,9 @@ logbin.cem <- function(mt, mf, Y, offset, mono, start, control, accelerate,
               nn.x = nn.design)
   if (control$coeftrace) fit$coefhist <- coefhist
   fit
+}
+
+# This is a function that determines the ordering of the parameter subspaces
+subsporder <- function(npar, start) {
+  ((rev(seq_len(npar)) + start - 1L) %% npar) + 1L
 }

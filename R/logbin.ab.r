@@ -32,16 +32,9 @@ logbin.ab <- function(mt, mf, Y, offset, mono, start, control, control.method, w
     else
       theta.start <- start
   } else {
-    allref <- logbin.allref(mt, mf, "cem", mono, NULL)
-    if (length(allref$allref) == 0)
-      theta.start <- log(mean(y)) - 2 * control$bound.tol
-    else {
-      design.numref <- sapply(allref$allref, length)
-      design.all <- expand.grid(lapply(design.numref, seq_len))
-      start.np <- rep((log(mean(y)) - 2 * control$bound.tol) / nvars, nvars)
-      reparam <- logbin.reparameterise(start.np, mt, mf, "cem", allref$allref, allref$monotonic, design.all[1, ])
-      theta.start <- reparam$coefs
-    }
+    reparam <- logbin.reparam(mt, mf, "cem", mono)
+    start.np <- rep((log(mean(y)) - 2 * control$bound.tol) / nvars, nvars)
+    theta.start <- logbin.expand(start.np, reparam, "cem")$coefs.exp
   }
   
   negll <- function(theta, y, n, x, offset) {

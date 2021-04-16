@@ -9,7 +9,7 @@ using an EM algorithm, where each of the coefficients in the linear
 predictor is restricted to be non-positive.
 }
 \usage{
-nplbin(y, x, offset, start, control = logbin.control(),
+nplbin(y, x, offset, start, Amat = diag(ncol(x)), control = logbin.control(),
        accelerate = c("em", "squarem", "pem", "qn"),
        control.accelerate = list(list()))
 }
@@ -28,6 +28,10 @@ nplbin(y, x, offset, start, control = logbin.control(),
   \item{start}{
 	starting values for the parameter estimates. All elements must be less than
 	or equal to \code{-control$bound.tol}.
+}
+  \item{Amat}{
+  matrix that parameter estimates are left-multiplied by before testing for
+  convergence (e.g. to check reduced version of expanded parameter vector).
 }
   \item{control}{
 	a \code{\link{logbin.control}} object, which controls the fitting process.
@@ -72,8 +76,7 @@ The null model will include the offset and an intercept.}
 \item{df.residual}{the residual degrees of freedom.}
 \item{df.null}{the residual degrees of freedom for the null model.}
 \item{y}{the \code{y} vector used.}
-\item{converged}{logical. Did the EM algorithm converge 
-(according to \code{\link{conv.test}})?}
+\item{converged}{logical. Did the EM algorithm converge?}
 \item{boundary}{logical. Is the MLE on the boundary of the parameter
 space --- i.e. are any of the \code{coefficients < control$bound.tol}?}
 \item{loglik}{the maximised log-likelihood.}

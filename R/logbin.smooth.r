@@ -88,7 +88,7 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
                           best.model$method, accelerate, control$maxit),
                 call. = FALSE)
     if(!allconv) allconvk <- FALSE
-    reparam.call <- call("logbin.smooth.reparameterise", coefficients = best.model$coefficients,
+    reparam.call <- call("logbin.smooth.reparam", coefficients = best.model$coefficients,
                           interpret = gp, type = method, allref = allref, knots = best.knots,
                           design.knots = allknots[k,,drop=FALSE], design.param = best.param)
     if (!missing(subset)) reparam.call$subset <- subset
@@ -118,7 +118,7 @@ logbin.smooth <- function (formula, mono = NULL, data, subset, na.action, offset
                        bestk.model$method), call. = FALSE)
   } 
   
-  reparam.call <- call("logbin.smooth.reparameterise", coefficients = bestk.model$coefficients,
+  reparam.call <- call("logbin.smooth.reparam", coefficients = bestk.model$coefficients,
                         interpret = gp, type = method, allref = bestk.allref, knots = bestk.knots,
                         design.knots = allknots[bestk,,drop=FALSE], design.param = bestk.param)
   if (!missing(subset)) reparam.call$subset <- subset

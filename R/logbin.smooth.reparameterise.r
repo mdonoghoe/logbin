@@ -1,5 +1,5 @@
-logbin.smooth.reparameterise <- function(coefficients, interpret, type = c("cem","em"), allref, knots,
-                                          design.knots, design.param, subset, na.action) {
+logbin.smooth.reparam <- function(coefficients, interpret, type = c("cem","em"), allref, knots,
+                                  design.knots, design.param, subset, na.action) {
   type <- match.arg(type)
   coefs.new <- coefficients
   coefs.new.int <- coefs.new[1]

@@ -1,6 +1,4 @@
-utils::globalVariables("tol")
-
-nplbin <- function(y, x, offset, start, control = logbin.control(), 
+nplbin <- function(y, x, offset, start, Amat = diag(ncol(x)), control = logbin.control(), 
                    accelerate = c("em","squarem","pem","qn"), control.accelerate = list(list())) {
   control <- do.call("logbin.control", control)
   accelerate <- match.arg(accelerate)
@@ -24,6 +22,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
   
   fam <- binomial(link = log)
   eval(fam$initialize)
+  if (max(y) == 0) stop("cannot fit a log-binomial model if all y==0")
   
   mu.eta <- fam$mu.eta
   linkinv <- fam$linkinv
@@ -43,7 +42,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
       stop(gettextf("length of 'start' should equal %d and correspond to initial coefs for %s",
                     nvars, paste(deparse(xnames), collapse = ", ")), domain = NA)
     else if (any(start >= -control$bound.tol))
-      stop("'start' is on our outside the boundary of the parameter space (consider 'bound.tol')", domain = NA)
+      stop("'start' is on or outside the boundary of the parameter space (consider 'bound.tol')", domain = NA)
     else start
   } else {
     simple <- log(mean(y)) / colMeans(x) - 2 * control$bound.tol
@@ -64,6 +63,9 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
     pnew.scale <- log(colSums(estep * x1) / colSums(n * x1))
     pnew <- pnew.scale * x.s
     pnew[pnew >= 0] <- -bound.tol / 2
+    # Sometimes estimates go to negative infinity (so exp(p) = 0). Just reduce them by a bit.
+    pnew[is.infinite(pnew)] <- pmin(p[is.infinite(pnew)] - .Machine$double.neg.eps, 
+                                    log(.Machine$double.neg.eps))
     return(pnew)
   }
   
@@ -81,7 +83,7 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
     pnew[p > 0] <- -.Machine$double.eps
   }
   
-  conv.user <- function(old,new) return(conv.test(old, new, tol))
+  conv.user <- conv.test(Amat, control$epsilon)
   
   emargs <- list(par = coefold, fixptfn = fixptfn, objfn = objfn, method = accelerate,
                  pconstr = validparams, project = projfn, y1 = y1, y2 = y2, n = n, x = x, x.s = x.scale,
@@ -96,21 +98,23 @@ nplbin <- function(y, x, offset, start, control = logbin.control(),
     if (res$fail[1]) stop(res$errors[1])
     iter <- res$itr[1]
   } else {
-    coefhist <- coefold
+    coefhist <- matrix(NA_real_, nrow = control$maxit + 1, ncol = length(coefold))
+    coefhist[1,] <- coefold
     iter <- 0
     converged <- FALSE
     
     emargs$control.run$maxiter <- 1
     
     while(!converged && iter < control$maxit) {
-      emargs$par = coefold
+      emargs$par <- coefold
       res <- do.call(turboEM::turboem, emargs)
       if (res$fail[1]) stop(res$errors[1])
       coefold <- res$pars[1,]
-      coefhist <- rbind(coefhist, as.vector(coefold))
       iter <- iter + 1
+      coefhist[iter + 1, ] <- as.vector(coefold)
       converged <- res$convergence[1]
     }
+    coefhist <- coefhist[seq_len(iter + 1), , drop = FALSE]
     colnames(coefhist) <- xnames
     rownames(coefhist) <- 0:iter
   }
