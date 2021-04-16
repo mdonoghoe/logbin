@@ -51,12 +51,12 @@ t.em.acc <- system.time(fit.em.acc <- update(fit.em, accelerate = "squarem"))
 
 Comparison of results:
 
-    #>         converged    logLik iterations   time
-    #> glm         FALSE -186.7366      10000   3.10
-    #> cem          TRUE -179.9016     223196 100.48
-    #> em           TRUE -179.9016       6492   5.46
-    #> cem.acc      TRUE -179.9016       4215   8.33
-    #> em.acc       TRUE -179.9016         81   0.20
+    #>         converged    logLik iterations  time
+    #> glm         FALSE -186.7366      10000  2.36
+    #> cem          TRUE -179.9016     223196 59.25
+    #> em           TRUE -179.9016       6492  3.25
+    #> cem.acc      TRUE -179.9016       4215  4.56
+    #> em.acc       TRUE -179.9016         81  0.13
 
 An adaptive barrier algorithm can also be applied using `method = "ab"`,
 with user-specified options via `control.method`: see `help(logbin)` for
