@@ -29,7 +29,7 @@ logbin.control(bound.tol = 1e-06, epsilon = 1e-08, maxit = 10000, trace = 0,
   converged when \eqn{\sqrt{
   \sum (\theta_{old} - \theta_{new})^2} / \sqrt {\sum
   \theta_{old}^2} < \epsilon}, where \eqn{\theta} is the
-  vector of parameter estimates. See \code{\link{conv.test}}.
+  vector of parameter estimates.
   
   This should be smaller than \code{bound.tol}.
 }
