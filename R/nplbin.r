@@ -90,34 +90,18 @@ nplbin <- function(y, x, offset, start, Amat = diag(ncol(x)), control = logbin.c
                  o = offset, nobs = nobs, nvars = nvars, fam = fam, bound.tol = control$bound.tol,
                  control.run = list(convtype = "parameter", tol = control$epsilon,
                                     stoptype = "maxiter", maxiter = control$maxit,
-                                    convfn.user = conv.user, trace = control$trace),
+                                    convfn.user = conv.user, trace = control$trace,
+                                    keep.paramval = control$coeftrace),
                  control.method = control.accelerate)
   
-  if (!control$coeftrace) {
-    res <- do.call(turboEM::turboem, emargs)
-    if (res$fail[1]) stop(res$errors[1])
-    iter <- res$itr[1]
-  } else {
-    coefhist <- matrix(NA_real_, nrow = control$maxit + 1, ncol = length(coefold))
-    coefhist[1,] <- coefold
-    iter <- 0
-    converged <- FALSE
-    
-    emargs$control.run$maxiter <- 1
-    
-    while(!converged && iter < control$maxit) {
-      emargs$par <- coefold
-      res <- do.call(turboEM::turboem, emargs)
-      if (res$fail[1]) stop(res$errors[1])
-      coefold <- res$pars[1,]
-      iter <- iter + 1
-      coefhist[iter + 1, ] <- as.vector(coefold)
-      converged <- res$convergence[1]
-    }
-    coefhist <- coefhist[seq_len(iter + 1), , drop = FALSE]
+  res <- do.call(turboEM::turboem, emargs)
+  if (res$fail[1]) stop(res$errors[1])
+  iter <- res$itr
+  if (control$coeftrace) {
+    coefhist <- res$trace.paramval[[1]]
     colnames(coefhist) <- xnames
-    rownames(coefhist) <- 0:iter
   }
+  
   coefnew <- res$pars[1,]
   names(coefnew) <- xnames
     
