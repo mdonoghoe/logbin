@@ -1,9 +1,10 @@
-# logbin 2.0.4.9000
+# logbin 2.0.5
 
 * Fixed reparameterisation for factor variables in method = "cem" (@jakobschoepe, #3)
 * Implemented a more efficient approach to parameter expansion (using the transformation matrix).
 * When using the parameter expansion approach, check convergence of the reduced parameter vector. As an indirect result, the `conv.test` function is no longer exported.
 * Fixed error in `logbin` if offset provided
+* Implement `coeftrace` via `turboEM::turboem` argument `keep.paramval`, to avoid taking a different path when it is turned on (#5)
 
 # logbin 2.0.4
 

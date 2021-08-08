@@ -271,7 +271,7 @@ by using \code{\link{logbin.smooth}}.
 \examples{
 require(glm2)
 data(heart)
-\donttest{
+
 #======================================================
 #  Model with periodic non-convergence when glm is used
 #======================================================
@@ -280,10 +280,12 @@ start.p <- sum(heart$Deaths) / sum(heart$Patients)
 
 fit.glm <- glm(cbind(Deaths, Patients-Deaths) ~ factor(AgeGroup) + factor(Severity) +
   factor(Delay) + factor(Region), family = binomial(log), 
-  start = c(log(start.p), -rep(1e-4, 8)), data = heart,
+  start = c(log(start.p), rep(c(0.2, 0.4), 4)), data = heart,
   trace = TRUE, maxit = 100)
 
-fit.logbin <- logbin(formula(fit.glm), data = heart, trace = 1)
+fit.logbin <- logbin(formula(fit.glm), data = heart, 
+                     start = c(log(start.p), rep(c(0.2, 0.4), 4)),
+                     trace = 1)
 summary(fit.logbin)
 
 # Speed up convergence by using single EM algorithm
@@ -292,8 +294,8 @@ fit.logbin.em <- update(fit.logbin, method = "em")
 # Speed up convergence by using acceleration methods
 fit.logbin.acc <- update(fit.logbin, accelerate = "squarem")
 fit.logbin.em.acc <- update(fit.logbin.em, accelerate = "squarem")
-}
 
+\donttest{
 #=============================
 #  Model with interaction term
 #=============================
@@ -307,7 +309,6 @@ summary(fit.logbin.int)
 vcov(fit.logbin.int)
 confint(fit.logbin.int)
 summary(predict(fit.logbin.int, type = "response"))
-\donttest{
 anova(fit.logbin, fit.logbin.int, test = "Chisq")
 }
 }
