@@ -14,3 +14,6 @@ Depends: R (>= 3.0.1)
 Imports: splines, glm2, turboEM (>= 2021.1), Matrix, itertools2, iterators
 License: GPL (>= 2)
 URL: https://github.com/mdonoghoe/logbin
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
