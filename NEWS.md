@@ -1,6 +1,8 @@
 # logbin 2.0.5.9000 (in development)
 
-...
+* Removed unused `contr.isototonic.rev` function. Also no longer exporting `interpret.logbin.smooth`.
+* Suppress startup messages when `turboEM::turboem` is called for the first time.
+* Replace `vcov` calculation in `summary.logbin` to replicate the version in `summary.glm`.
 
 # logbin 2.0.5
 
