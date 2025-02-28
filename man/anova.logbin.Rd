@@ -37,12 +37,12 @@ smallest to largest, but this is up to the user.
 
 Models where the MLE lies on the boundary of the parameter
 space will be automatically removed from the list (with a
-warning), because asymptotic results to not apply to such
+warning), because asymptotic results may not apply to such
 models.
 
 The table will optionally contain test statistics (and p-values) 
 comparing the reduction in deviance for the row to
-the residuals. Mallows' \emph{Cp} statistic is the residual
+the residuals. Mallows' \eqn{C_p}{Cp} statistic is the residual
 deviance plus twice the estimate of \eqn{\sigma^2} times
 the residual degrees of freedom, which is closely related
 to AIC. You can also choose \code{"LRT"} and \code{"Rao"}
