@@ -94,7 +94,7 @@ nplbin <- function(y, x, offset, start, Amat = diag(ncol(x)), control = logbin.c
                                     keep.paramval = control$coeftrace),
                  control.method = control.accelerate)
   
-  res <- do.call(turboEM::turboem, emargs)
+  res <- suppressPackageStartupMessages(do.call(turboEM::turboem, emargs))
   if (res$fail[1]) stop(res$errors[1])
   iter <- res$itr
   if (control$coeftrace) {

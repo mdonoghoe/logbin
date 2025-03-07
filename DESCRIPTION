@@ -9,8 +9,13 @@ Authors@R: c(person("Mark W.", "Donoghoe", email = "markdonoghoe@gmail.com", rol
                     comment = c(ORCID = "0000-0002-6225-1572")),
              person("Alexandra C.", "Gillett", role = "ctb", 
                     comment = c("wrote an initial version of the nplbin function",
-                                ORCID = "0000-0002-5069-3197")))
+                                ORCID = "0000-0002-5069-3197")),
+             person("The R Core Team", role = "cph",
+                    comment = "summary.logbin, anova.logbin and others are based on stats::glm-related functions"))
 Depends: R (>= 3.0.1)
 Imports: splines, glm2, turboEM (>= 2021.1), Matrix, itertools2, iterators
 License: GPL (>= 2)
 URL: https://github.com/mdonoghoe/logbin
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
