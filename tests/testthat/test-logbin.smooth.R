@@ -9,6 +9,14 @@ test_that("logbin.smooth with B and fixed knots works", {
   
   expect_true(all(predict(mdl) < 0))
   
+  newdat <- data.frame(mpg = seq(min(mtcars$mpg), 
+                                 max(mtcars$mpg), 0.1))
+  
+  pred.newdat <- predict(mdl, newdata = newdat)
+  
+  expect_vector(pred.newdat, ptype = double(), size = nrow(newdat))
+  expect_true(all(pred.newdat < 0))
+  
 })
 
 test_that("logbin.smooth with B and knot range works", {
