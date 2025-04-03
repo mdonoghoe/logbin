@@ -22,7 +22,7 @@ and \code{\link{logbin.smooth}}, together with various supporting functions.
 
 Standard GLM routines such as base R's \code{\link{glm}} typically use a modified Fisher
 scoring algorithm, but this can experience numerical problems and fail to converge to the
-maximum likelihood estimate (MLE). The \pkg{\link[=glm2-package]{glm2}}
+maximum likelihood estimate (MLE). The \pkg{\link[glm2:glm2-package]{glm2}}
 package improves on this but can still have difficulties, particularly when the MLE
 is on or near the boundary of the parameter space (Marschner, 2015).
 
@@ -75,7 +75,7 @@ and flexible methods for log-binomial models. \emph{Biostatistics} 13(1): 179--1
 \keyword{ package }
 \keyword{ regression }
 \seealso{
-\code{\link{glm}}, \pkg{\link[=glm2-package]{glm2}}, \pkg{\link[turboEM:turboem]{turboEM}}
+\code{\link{glm}}, \pkg{\link[glm2:glm2-package]{glm2}}, \pkg{\link[turboEM:turboem]{turboEM}}
 }
 \examples{
 ## For examples, see example(logbin) and example(logbin.smooth)
