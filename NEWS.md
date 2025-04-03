@@ -1,10 +1,11 @@
-# logbin 2.0.5.9000 (in development)
+# logbin 2.0.6
 
-* Removed unused `contr.isototonic.rev` function. Also no longer exporting `interpret.logbin.smooth`.
-* Suppress startup messages when `turboEM::turboem` is called for the first time.
 * Replace `vcov` calculation in `summary.logbin` to replicate the version in `summary.glm`.
 * Implement tests using `testthat`.
 * Clarify the copyright status of functions based on base R.
+* (Minor) Removed unused `contr.isototonic.rev` function. Also no longer exporting `interpret.logbin.smooth`.
+* (Minor) Suppress startup messages when `turboEM::turboem` is called for the first time.
+* (Minor) Update `logbin-package` Rd file to remove CRAN `NOTE`.
 
 # logbin 2.0.5
 
@@ -38,7 +39,7 @@
 
 * `method` option added: fit using glm, glm2, adaptive barrier, CEM or single EM algorithm with overparameterised model
 * `accelerate` option added: use `turboEM` methods to speed up convergence
-* (Minor change) Corrected the definition of `boundary` 
+* (Minor) Corrected the definition of `boundary` 
 
 # logbin 1.2
 
