@@ -17,7 +17,7 @@ predict.logbin.smooth <- function(object, newdata = NULL, type = c("link", "resp
       smthlabel <- gp$smooth.spec[[smth]]$termlabel
       smthtype <- class(gp$smooth.spec[[smth]])
       x <- newdata[[smth]]
-      if (class(x) != "numeric")
+      if (!inherits(x, "numeric"))
         stop(gettextf("error in %s: variable %s in newdata must be numeric",
              smthlabel, smth), domain = NA)
       if (smthtype == "Iso.smooth") {

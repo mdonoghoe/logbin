@@ -124,7 +124,7 @@ for the fully parametric model corresponding to the fitted model.}
 \item{xminmax.smooth}{the minimum and maximum observed values for
 each of the smooth terms in the model, to help define the 
 covariate space.}
-\item{full.formula}{the component from \code{\link{interpret.logbin.smooth}(formula)}
+\item{full.formula}{the component from \code{logbin:::interpret.logbin.smooth(formula)}
 that contains the \code{formula} term with any additional arguments to the \code{\link{B}}
 function removed.}
 \item{knots}{a named list containing the knot vectors for each of the smooth
