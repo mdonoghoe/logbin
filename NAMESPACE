@@ -16,7 +16,7 @@ importFrom("stats", ".MFclass", ".checkMFClasses", ".getXlevels",
            "naprint", "nobs", "pnorm", "predict", "printCoefmat",
            "quantile", "reformulate", "relevel", "residuals",
            "setNames", "stat.anova", "terms", "terms.formula",
-           "update")
+           "update", "coef")
 S3method(confint,logbin)
 S3method(anova,logbin)
 S3method(anova,logbinlist)
