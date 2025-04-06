@@ -1,3 +1,7 @@
+# logbin 2.0.6.9000 (under development)
+
+...
+
 # logbin 2.0.6
 
 * Replace `vcov` calculation in `summary.logbin` to replicate the version in `summary.glm`.
